@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title><%= process.env.VUE_APP_TITLE %></title>
+
+    <!-- async defer="" -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=<%=process.env.VUE_APP_GOOGLE_MAP_KEY%>&amp"></script>
+</head>
+<body>
+    <noscript>
+        <strong>
+            Bizni kechiring, biroq <%= process.env.VUE_APP_TITLE %> JavaScript yoqilmaguncha to&#8216;g&#8216;ri ishlamaydi. Davom etish uchun uni yoqing.
+        </strong>
+    </noscript>
+    <div id="app"></div>
+</body>
+</html>

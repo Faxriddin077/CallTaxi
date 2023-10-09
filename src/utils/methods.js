@@ -5,7 +5,7 @@ const {cookies} = useCookies();
 
 
 export function getToken(name) {
-    return getCookie(name)?.token;
+    return getCookie(name)?.access_token;
 }
 
 export function getRole() {

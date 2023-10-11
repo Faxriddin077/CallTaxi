@@ -49,6 +49,7 @@ export default {
   methods: {
     destroy() {
       this.$store.dispatch('delete', this.original)
+      location.reload()
     },
     toggleDropdown: function(event) {
       event.preventDefault();

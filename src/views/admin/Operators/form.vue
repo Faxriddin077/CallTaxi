@@ -86,7 +86,8 @@
 
         <br>
         <div class="flex flex-wrap justify-end">
-          <button type="submit" class="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
+          <button type="submit" :disabled="!canSubmit"
+                  class="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
             Saqlash
           </button>
         </div>
@@ -98,43 +99,119 @@
 <script>
 import {mask} from 'vue-the-mask';
 import useVuelidate from '@vuelidate/core';
-import {required} from '@vuelidate/validators';
+import {helpers, required, requiredIf, minLength} from '@vuelidate/validators';
+
 
 export default {
   name: "operator-form",
   directives: { mask },
+  setup () {
+    return { v$: useVuelidate() }
+  },
   data() {
     return {
       inputClass: 'border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150',
       model: {},
-      v$: useVuelidate()
+      canSubmit: true
     }
   },
   validations() {
     return {
-      name: {
-        required
-      },
-      surname: {
-        required,
-        // min: minLength(6)
+      model: {
+        name: {
+          required: helpers.withMessage("<b>Name</b> field cannot be empty", required),
+        },
+        surname: {
+          required: helpers.withMessage("<b>Surname</b> field cannot be empty", required),
+        },
+        username: {
+          required: helpers.withMessage("<b>Username</b> field cannot be empty", required),
+          minLength: helpers.withMessage("<b>Username</b> field must be minimum 4 symbols", minLength(4)),
+        },
+        password: {
+          required: helpers.withMessage("<b>Password</b> field cannot be empty", requiredIf(false)),
+          minLength: helpers.withMessage("<b>Password</b> field must be grater than 5 symbols", minLength(5)),
+        }
       }
     }
   },
   mounted() {
     if (this.$route.params.id) {
       this.$store.dispatch('get', this.$route.path)
-        .then(res => this.model = res)
+        .then(res => this.model = res.data)
     }
   },
   methods: {
-    submit() {
-      let method = this.$route.params.id ? "put" : "post";
-      this.model.phone = this.unmask(this.model.phone)
-      this.$store.dispatch(method, {
-        url: `/admin/users/${this.$route.params.id ?? ''}`, // this.$route.matched[1].path,
-        model: this.model
-      }).then(() => this.$router.back())
+    async submit() {
+      this.canSubmit = false
+      const isFormCorrect = await this.v$.$validate()
+
+      if (!isFormCorrect) {
+        this.showErrorMessages()
+      }
+      else {
+        let method = this.$route.params.id ? "put" : "post";
+        this.model.phone = this.unmask(this.model.phone)
+        this.$store.dispatch(method, {
+          url: `/admin/users/${this.$route.params.id ?? ''}`, // this.$route.matched[1].path,
+          model: this.model
+        }).then((res) => {
+          if (res.success) {
+            this.$router.back()
+            this.$swal.fire({
+              icon: 'success',
+              title: "Success",
+              html: "Operator successfully created!",
+              toast: true,
+              position: "top-end",
+              timer: 3000,
+              showConfirmButton: false
+            })
+          }
+          else {
+            this.$swal({
+              title: "Error!",
+              text: this.joinObjectArraysToString(res.errors),
+              icon: "error",
+              confirmButtonText: "OK"
+            })
+            this.canSubmit = true
+          }
+        })
+      }
+    },
+    showErrorMessages() {
+      const Toast = this.$swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', this.$swal.stopTimer)
+          toast.addEventListener('mouseleave', this.$swal.resumeTimer)
+        }
+      })
+      let messages = ""
+      this.v$.$errors.map((value) => {
+        messages += value.$message + "<br>"
+      })
+      Toast.fire({
+        icon: 'error',
+        title: "Validation error",
+        html: messages
+      })
+    },
+    joinObjectArraysToString(obj) {
+      let result = '';
+
+      for (const key in obj) {
+        if (Array.isArray(obj[key])) {
+          result += obj[key].join('\n');
+        }
+      }
+
+      return result;
     }
   }
 }

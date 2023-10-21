@@ -1,10 +1,10 @@
 <template>
-  <table-layout heading="Haydovchilar" :headers="headers">
-    <tr v-for="model in data" :key="model.id">
+  <table-layout heading="Haydovchilar" :headers="headers" link="/drivers/create">
+    <tr v-for="model in data.drivers" :key="model.id">
       <th :class="rowClass + 'text-left flex items-center'">
         <img :src="avatar" class="h-12 w-12 bg-white rounded-full border" alt="..."/>
         <span class="ml-3 font-bold" :class="[color === 'light' ? 'text-blueGray-600' : 'text-white']">
-          {{ model.name }}
+          {{ model.name }} {{ model.surname }}
         </span>
       </th>
       <td :class="rowClass">
@@ -18,7 +18,7 @@
         <span>{{ model.car?.status ? 'Aktiv' : 'Aktiv emas' }}</span>
       </td>
       <td :class="rowClass">
-        <span>{{ price(model.sum) }}</span>
+        <span>{{ price(model.balance) }}</span>
       </td>
       <td :class="rowClass + 'text-right'">
         <table-dropdown url="/drivers" :id="model.id"/>

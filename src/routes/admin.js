@@ -9,6 +9,8 @@ import Tariffs from "@/views/admin/Tariffs";
 import TariffForm from "@/views/admin/Tariffs/form";
 import CarTypes from "@/views/admin/CarTypes";
 import CarTypeForm from "@/views/admin/CarTypes/form";
+import Districts from "@/views/admin/Districts";
+import DistrictForm from "@/views/admin/Districts/form";
 
 
 export const admin = [
@@ -47,13 +49,18 @@ export const admin = [
     {
         path: "/drivers",
         label: "Haydovchilar",
+        name: 'admin.drivers',
         icon: 'fas fa-taxi',
         meta: {auth: true, role: ADMIN},
         component: EmptyLayout,
         children: [
             {
-                path: '/drivers',
+                path: '',
                 component: Drivers,
+            },
+            {
+                path: 'create',
+                component: DriverForm
             },
             {
                 path: ':id',
@@ -100,6 +107,27 @@ export const admin = [
             {
                 path: ':id',
                 component: CarTypeForm
+            }
+        ]
+    },
+    {
+        path: "/districts",
+        label: "Tumanlar",
+        icon: 'fas fa-city',
+        meta: {auth: true, role: ADMIN},
+        component: EmptyLayout,
+        children: [
+            {
+                path: '',
+                component: Districts
+            },
+            {
+                path: 'create',
+                component: DistrictForm,
+            },
+            {
+                path: ':id',
+                component: DistrictForm
             }
         ]
     },

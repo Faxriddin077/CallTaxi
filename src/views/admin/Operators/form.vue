@@ -137,7 +137,7 @@ export default {
   },
   mounted() {
     if (this.$route.params.id) {
-      this.$store.dispatch('get', this.$route.path)
+      this.$store.dispatch('get', 'admin/users/' + this.$route.params.id)
         .then(res => this.model = res.data)
     }
   },

@@ -1,4 +1,4 @@
-# taxi
+# TAXI (Vue Notus Template) 
 
 ## Project setup
 ```

@@ -11,6 +11,8 @@ import CarTypes from "@/views/admin/CarTypes";
 import CarTypeForm from "@/views/admin/CarTypes/form";
 import Districts from "@/views/admin/Districts";
 import DistrictForm from "@/views/admin/Districts/form";
+import Points from "@/views/admin/Points";
+import PointForm from "@/views/admin/Points/form";
 
 
 export const admin = [
@@ -107,6 +109,27 @@ export const admin = [
             {
                 path: ':id',
                 component: CarTypeForm
+            }
+        ]
+    },
+    {
+        path: "/points",
+        label: "Manzillar",
+        icon: 'fas fa-location',
+        meta: {auth: true, role: ADMIN},
+        component: EmptyLayout,
+        children: [
+            {
+                path: '',
+                component: Points
+            },
+            {
+                path: 'create',
+                component: PointForm,
+            },
+            {
+                path: ':id',
+                component: PointForm
             }
         ]
     },

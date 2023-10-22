@@ -12,19 +12,31 @@
         </h6>
 
         <div class="flex flex-wrap">
-          <div class="w-full lg:w-12/12 px-4">
+          <div class="w-full lg:w-6/12 px-4">
             <div class="relative w-full mb-3">
               <label for="brand" class="block uppercase text-blueGray-600 text-xs font-bold mb-2">
-                Tuman nomini kiriting
+                Manzil nomini kiriting
               </label>
-              <input type="text" id="name" name="name"
+              <input type="text" id="brand" name="brand"
                      :class="inputClass"
-                     placeholder="Tuman"
+                     placeholder="Qisqa nom"
                      autocomplete="off"
                      v-model="model.name">
             </div>
           </div>
 
+          <div class="w-full lg:w-6/12 px-4">
+            <div class="relative w-full mb-3">
+              <label for="brand" class="block uppercase text-blueGray-600 text-xs font-bold mb-2">
+                Manzil adresini kiriting
+              </label>
+              <input type="text" id="address" name="address"
+                     :class="inputClass"
+                     placeholder="Tuman"
+                     autocomplete="off"
+                     v-model="model.address">
+            </div>
+          </div>
         </div>
 
         <hr class="mt-6 border-b-1 border-blueGray-300 border-none">
@@ -52,7 +64,7 @@ import {createInfoWindow, getGoogleMaps, getPosition, LatLng} from "@/utils/meth
 import {google, map_style} from "@/utils";
 
 export default {
-  name: "district-form",
+  name: "point-form",
   data() {
     return {
       inputClass: 'border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150',
@@ -61,7 +73,7 @@ export default {
   },
   mounted() {
     if (this.$route.params.id) {
-      this.$store.dispatch('get', 'admin/districts/' + this.$route.params.id)
+      this.$store.dispatch('get', 'admin/points/' + this.$route.params.id)
         .then(res => this.model = res.data)
     }
     this.markers = [];
@@ -71,7 +83,7 @@ export default {
     submit() {
       let method = this.$route.params.id ? "put" : "post";
       this.$store.dispatch(method, {
-        url: `/admin/districts/${this.$route.params.id ?? ''}`,
+        url: `/admin/points/${this.$route.params.id ?? ''}`,
         model: this.model
       }).then(() => this.$router.back())
     },

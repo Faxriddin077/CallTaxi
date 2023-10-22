@@ -12,16 +12,16 @@
         </h6>
 
         <div class="flex flex-wrap">
-          <div class="w-full lg:w-6/12 px-4">
+          <div class="w-full lg:w-12/12 px-4">
             <div class="relative w-full mb-3">
               <label for="brand" class="block uppercase text-blueGray-600 text-xs font-bold mb-2">
-                Brendni kiriting
+                Tuman nomini kiriting
               </label>
               <input type="text" id="brand" name="brand"
                      :class="inputClass"
-                     placeholder="Brend"
+                     placeholder="Tuman"
                      autocomplete="off"
-                     v-model="model.brand">
+                     v-model="model.name">
             </div>
           </div>
 
@@ -62,7 +62,7 @@ export default {
   },
   mounted() {
     if (this.$route.params.id) {
-      this.$store.dispatch('get', this.$route.path)
+      this.$store.dispatch('get', 'admin/districts' + this.$route.params.id)
         .then(res => this.model = res)
     }
   },
@@ -70,7 +70,7 @@ export default {
     submit() {
       let method = this.$route.params.id ? "put" : "post";
       this.$store.dispatch(method, {
-        url: `/admin/car-types/${this.$route.params.id ?? ''}`,
+        url: `/admin/districts/${this.$route.params.id ?? ''}`,
         model: this.model
       }).then(() => this.$router.back())
     }

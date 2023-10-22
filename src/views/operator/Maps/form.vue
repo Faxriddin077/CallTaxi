@@ -115,7 +115,7 @@ export default {
     submit() {
       this.model.phone = this.unmask(this.model.phone)
       this.$store.dispatch("post", {
-        url: '/operators/create-order',
+        url: '/operator/booking/create',
         model: this.model
       }).then(
         (res) => this.emit(res.data.order),

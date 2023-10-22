@@ -1,5 +1,5 @@
 <template>
-  <table-layout heading="Mashina turlari" :headers="headers" link="/car-types/create">
+  <table-layout heading="Tumanlar" :headers="headers" link="/districts/create">
     <tr v-for="(model, i) in data" :key="model.id">
       <td :class="rowClass">
         {{ i + 1 }}
@@ -11,7 +11,7 @@
         {{ model.model }}
       </td>
       <td :class="rowClass + 'text-right'">
-        <table-dropdown url="/car-types" :id="model.id" :original="url + '/' + model.id"/>
+        <table-dropdown url="/districts" :id="model.id" :original="url + '/' + model.id"/>
       </td>
     </tr>
   </table-layout>
@@ -23,7 +23,7 @@ import TableLayout from "@/components/Tables/TableLayout";
 import TableDropdown from "@/components/Dropdowns/TableDropdown";
 
 export default {
-  name: "car-type-index",
+  name: "district-index",
   props: {
     color: {
       default: "light",
@@ -39,7 +39,7 @@ export default {
       avatar,
       headers: ["Tr", "Brend", "Model", "Tahrirlash"],
       data: [],
-      url: '/admin/car-types'
+      url: '/admin/districts'
     }
   },
   components: {

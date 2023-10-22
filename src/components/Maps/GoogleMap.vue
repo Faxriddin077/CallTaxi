@@ -58,7 +58,7 @@ export default {
     },
     async getDrivers(latitude, longitude, tariff_id = 0) {
       let res = await this.$store.dispatch('post', {
-        url: '/operators/driver-location',
+        url: '/operator/driver/location',
         model: { latitude, longitude, tariff_id, scope: 10}
       });
       return res.data.drivers;

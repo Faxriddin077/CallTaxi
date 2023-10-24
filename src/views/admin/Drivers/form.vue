@@ -60,7 +60,7 @@
                      :class="inputClass"
                      placeholder="Tug'ilgan sana"
                      autocomplete="off"
-                     v-model="model.birth_date">
+                     v-model="model.driver_info.birth_date">
             </div>
           </div>
 
@@ -73,7 +73,7 @@
                      :class="inputClass"
                      placeholder="Manzil"
                      autocomplete="off"
-                     v-model="model.address">
+                     v-model="model.driver_info.address">
             </div>
           </div>
 
@@ -100,7 +100,7 @@
                      :class="inputClass"
                      placeholder="Prava nomeri"
                      autocomplete="off"
-                     v-model="model.license">
+                     v-model="model.driver_info.license">
             </div>
           </div>
 
@@ -116,15 +116,8 @@
                      v-model="model.email">
             </div>
           </div>
-        </div>
 
-        <hr class="mt-6 border-b-1 border-blueGray-300">
-        <h6 class="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
-          Qo'shimcha
-        </h6>
-        <div class="flex flex-wrap">
-
-          <div class="w-full lg:w-4/12 px-4">
+          <div class="w-full lg:w-3/12 px-4">
             <div class="relative w-full mb-3">
               <label for="email" class="block uppercase text-blueGray-600 text-xs font-bold mb-2">
                 Pochtani kiriting
@@ -137,25 +130,40 @@
             </div>
           </div>
 
-          <div class="w-full lg:w-4/12 px-4">
+          <div class="w-full lg:w-3/12 px-4">
             <div class="relative w-full mb-3">
               <label for="email" class="block uppercase text-blueGray-600 text-xs font-bold mb-5">
                 Jinsi tanlang
               </label>
               <div class="flex">
                 <label class="flex items-center">
-                  <input type="radio" id="gender" name="gender" checked/>
+                  <input type="radio" id="gender" value="1" v-model="model.driver_info.gender"/>
                   <span class="ml-2 text-sm">Erkak</span>
                 </label>
                 <label class="flex items-center ml-2">
-                  <input type="radio" id="gender" name="gender">
+                  <input type="radio" id="gender" value="2" v-model="model.gender">
                   <span class="ml-2 text-sm">Ayol</span>
                 </label>
               </div>
             </div>
           </div>
 
-          <div class="w-full lg:w-4/12 px-4">
+          <div class="w-full lg:w-3/12 px-4">
+            <div class="relative w-full mb-3">
+              <label for="email" class="block uppercase text-blueGray-600 text-xs font-bold mb-2">
+                Statusni tanlang
+              </label>
+              <select id="status"
+                     :class="inputClass"
+                      v-model="model.status">
+                <option value="0">OFFLINE</option>
+                <option value="1">ONLINE</option>
+                <option value="2">BUSY</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="w-full lg:w-3/12 px-4">
             <div class="relative w-full mb-3">
               <div class="personal-image">
                 <label class="label">
@@ -168,6 +176,110 @@
                   </figure>
                 </label>
               </div>
+            </div>
+          </div>
+        </div>
+
+        <hr class="mt-6 border-b-1 border-blueGray-300">
+        <h6 class="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
+          Mashina ma'lumotlari
+        </h6>
+        <div class="flex flex-wrap">
+
+          <div class="w-full lg:w-6/12 px-4">
+            <div class="relative w-full mb-3">
+              <label for="address" class="block uppercase text-blueGray-600 text-xs font-bold mb-2">
+                Mashinani tanlang
+              </label>
+              <select id="status"
+                      :class="inputClass"
+                      v-model="model.car.type_id">
+                <option v-for="carType in carTypes" :key="carType.id" :value="carType.id">
+                  {{carType.model}} ({{ carType.brand }})
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="w-full lg:w-6/12 px-4">
+            <div class="relative w-full mb-3">
+              <label for="card_number" class="block uppercase text-blueGray-600 text-xs font-bold mb-2">
+                Mashina raqamini kiriting
+              </label>
+              <input type="text" id="number"
+                     :class="inputClass"
+                     placeholder="Mashina raqami"
+                     autocomplete="off"
+                     v-model="model.car.number">
+            </div>
+          </div>
+
+          <div class="w-full lg:w-6/12 px-4">
+            <div class="relative w-full mb-3">
+              <label for="license" class="block uppercase text-blueGray-600 text-xs font-bold mb-2">
+                Mashina rangini kiriting
+              </label>
+              <input type="text" id="color"
+                     :class="inputClass"
+                     placeholder="Mashina rangi"
+                     autocomplete="off"
+                     v-model="model.car.color">
+            </div>
+          </div>
+
+          <div class="w-full lg:w-6/12 px-4">
+            <div class="relative w-full mb-3">
+              <label for="email" class="block uppercase text-blueGray-600 text-xs font-bold mb-2">
+                O'rindiqlar sonini kiriting
+              </label>
+              <input type="text" id="count_seats"
+                     :class="inputClass"
+                     placeholder="O'rindiqlar soni"
+                     autocomplete="off"
+                     v-model="model.car.count_seats">
+            </div>
+          </div>
+
+          <div class="w-full lg:w-4/12 px-4">
+            <div class="relative w-full mb-3">
+              <label for="password" class="block uppercase text-blueGray-600 text-xs font-bold mb-2">
+                Mashina ishlab chiqarilgan yilni kiriting
+              </label>
+              <input type="number" id="manufacture_date"
+                     :class="inputClass"
+                     placeholder="Mashina yili"
+                     autocomplete="off"
+                     min="2000" max="2023" step="1"
+                     v-model="model.car.manufacture_date">
+            </div>
+          </div>
+
+          <div class="w-full lg:w-4/12 px-4">
+            <div class="relative w-full mb-3">
+              <label for="tariff_id" class="block uppercase text-blueGray-600 text-xs font-bold mb-2">
+                Tarifni tanlang
+              </label>
+              <select id="tariff_id"
+                      :class="inputClass"
+                      v-model="model.car.tariff_id">
+                <option v-for="tariff in tariffs" :key="tariff.id" :value="tariff.id">
+                  {{ tariff.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="w-full lg:w-4/12 px-4">
+            <div class="relative w-full mb-3">
+              <label for="address" class="block uppercase text-blueGray-600 text-xs font-bold mb-2">
+                Statusni tanlang
+              </label>
+              <select id="status"
+                      :class="inputClass"
+                      v-model="model.car.status">
+                <option value="0">Aktiv emas</option>
+                <option value="1">Aktiv</option>
+              </select>
             </div>
           </div>
 
@@ -252,8 +364,14 @@ export default {
   data() {
     return {
       inputClass: 'border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150',
-      model: {},
-      canSubmit: true
+      model: {
+        gender: 1,
+        driver_info: {},
+        car: {}
+      },
+      canSubmit: true,
+      carTypes: [],
+      tariffs: []
     }
   },
   validations() {
@@ -269,20 +387,22 @@ export default {
           required: helpers.withMessage("<b>Phone</b> field cannot be empty", required),
           minLength: helpers.withMessage("<b>Phone</b> field must be minimum 4 symbols", minLength(4)),
         },
-        birth_date: {
-          required: helpers.withMessage("<b>Birth date</b> field cannot be empty", required),
-        },
-        address: {
-          required: helpers.withMessage("<b>Address</b> field cannot be empty", required),
+        driver_info: {
+          birth_date: {
+            required: helpers.withMessage("<b>Birth date</b> field cannot be empty", required),
+          },
+          address: {
+            required: helpers.withMessage("<b>Address</b> field cannot be empty", required),
+          },
+          license: {
+            required: helpers.withMessage("<b>License</b> field cannot be empty", requiredIf(false)),
+            minLength: helpers.withMessage("<b>License</b> field must be grater than 5 symbols", minLength(5)),
+          }
         },
         card_number: {
           required: helpers.withMessage("<b>Card number</b> field cannot be empty", required),
           minLength: helpers.withMessage("<b>Card number</b> field must be minimum 4 symbols", minLength(16)),
         },
-        license: {
-          required: helpers.withMessage("<b>License</b> field cannot be empty", requiredIf(false)),
-          minLength: helpers.withMessage("<b>License</b> field must be grater than 5 symbols", minLength(5)),
-        }
       }
     }
   },
@@ -291,6 +411,11 @@ export default {
       this.$store.dispatch('get', 'admin/drivers/' + this.$route.params.id)
         .then(res => this.model = res.data)
     }
+    this.$store.dispatch('get', 'driver/car-types')
+      .then(res => this.carTypes = res.data)
+    this.$store.dispatch('get', 'driver/tariffs')
+      .then(res => this.tariffs = res.data.tariffs)
+
   },
   methods: {
     async submit() {

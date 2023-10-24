@@ -1,5 +1,5 @@
 <template>
-  <table-layout heading="Mijozlar" :headers="headers" :link="{name: 'operator.clients.create'}">
+  <table-layout heading="Mijozlar" :headers="headers">
     <tr v-for="model in data" :key="model.id">
       <th :class="rowClass + 'text-left flex items-center'">
         {{ model.id }}
@@ -11,7 +11,8 @@
         {{ phoneFormatter(model.client.phone) }}
       </td>
       <td :class="rowClass">
-        <span>{{ model.status }}</span>
+        <i :class="'fas fa-circle mr-2 ' + statusClass(model.status)"></i>
+        <span>{{ statusText(model.status) }}</span>
       </td>
     </tr>
   </table-layout>
@@ -23,7 +24,7 @@ import avatar from "@/assets/img/avatar.svg";
 
 
 export default {
-  name: "client-index",
+  name: "bookings-index",
   props: {
     color: {
       default: "light",
@@ -45,7 +46,31 @@ export default {
     TableLayout
   },
   mounted() {
-    this.$store.dispatch('get', '/operators/get-taxi-orders?status=0').then(res => this.data = res.data.orders)
+    this.$store.dispatch('get', '/operator/booking/all').then(res => this.data = res.data.bookings)
+  },
+  methods: {
+    statusText(status) {
+      if (status == 0) {
+        return 'new'
+      }
+      else if (status == 1) {
+        return 'created'
+      }
+      else if (status == 2) {
+        return 'process'
+      }
+    },
+    statusClass(status) {
+      if (status == 0) {
+        return 'text-yellow-400'
+      }
+      else if (status == 1) {
+        return 'text-yellow-400'
+      }
+      else if (status == 2) {
+        return 'text-orange-600'//'text-teal-500'
+      }
+    }
   }
 };
 </script>

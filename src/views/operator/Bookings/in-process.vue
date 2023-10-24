@@ -26,7 +26,7 @@ import TableLayout from "@/components/Tables/TableLayout";
 import TableDropdown from "@/components/Dropdowns/TableDropdown";
 
 export default {
-  name: "orders-in-process",
+  name: "bookings-in-process",
   props: {
     color: {
       default: "light",
@@ -49,7 +49,7 @@ export default {
     TableDropdown
   },
   mounted() {
-    this.$store.dispatch('get', '/operators/get-taxi-orders?status=0').then(res => this.data = res.data.orders)
+    this.$store.dispatch('get', '/operator/booking/get-by-status?status=0').then(res => this.data = res.data.bookings)
   }
 }
 </script>

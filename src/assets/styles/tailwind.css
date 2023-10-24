@@ -3283,6 +3283,16 @@ select {
   color: rgba(20, 184, 166, var(--tw-text-opacity));
 }
 
+.text-yellow-400 {
+    --tw-text-opacity: 1;
+    color: rgba(250, 204, 21, var(--tw-text-opacity));
+}
+
+.text-orange-600 {
+    --tw-text-opacity: 1;
+    color: rgba(234, 88, 12, var(--tw-text-opacity)) ;
+}
+
 .text-emerald-300 {
   --tw-text-opacity: 1;
   color: rgba(110, 231, 183, var(--tw-text-opacity));

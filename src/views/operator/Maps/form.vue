@@ -118,27 +118,34 @@ export default {
         url: '/operator/booking/create',
         model: this.model
       }).then(
-        (res) => this.emit(res.data.order),
-        () => this.$router.push({name: 'operator.clients'})
+        (res) => {
+          if (res.success) {
+            this.$swal.fire({
+              icon: 'success',
+              title: "Success",
+              html: "Order successfully created!",
+              toast: true,
+              position: "top-end",
+              timer: 3000,
+              showConfirmButton: false
+            })
+          }
+          else {
+            this.$swal({
+              title: "Error!",
+              text: res.msg,
+              icon: "error",
+              confirmButtonText: "OK"
+            })
+            this.canSubmit = true
+          }
+        },
+        () => this.$router.push({name: 'operator.bookings_in_process'})
       );
     },
     setup(pos) {
       this.model.latitude = pos.lat();
       this.model.longitude = pos.lng();
-    },
-    emit(model) {
-      this.$socket.emit('operator-server', {
-        address: model.address ?? "Shu",
-        address2: null,
-        drivers: [8, 3],
-        id: model.id,
-        in_cash: true,
-        info: "",
-        is_delivery: false,
-        origin: {latitude: model.latitude, longitude: model.longitude},
-        phone: this.phoneFormatter(model.phone),
-        phone2: null
-      });
     }
   }
 }

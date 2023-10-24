@@ -1,6 +1,9 @@
 <template>
   <table-layout heading="Haydovchilar" :headers="headers" link="/drivers/create">
-    <tr v-for="model in data.drivers" :key="model.id">
+    <tr v-for="(model, i) in data.drivers" :key="model.id">
+      <td :class="rowClass">
+        {{ i + 1 }}
+      </td>
       <th :class="rowClass + 'text-left flex items-center'">
         <img :src="avatar" class="h-12 w-12 bg-white rounded-full border" alt="..."/>
         <span class="ml-3 font-bold" :class="[color === 'light' ? 'text-blueGray-600' : 'text-white']">
@@ -21,7 +24,7 @@
         <span>{{ price(model.balance) }}</span>
       </td>
       <td :class="rowClass + 'text-right'">
-        <table-dropdown url="/drivers" :id="model.id"/>
+        <table-dropdown url="/drivers" :id="model.id" :original="url + '/' + model.id"/>
       </td>
     </tr>
   </table-layout>
@@ -49,7 +52,8 @@ export default {
       rowClass: 'border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4',
       avatar,
       headers: ["Ism", "Telefon", "Mashina raqami", "Holati", "Mablag\u2018", ""],
-      data: []
+      data: [],
+      url: '/admin/drivers'
     }
   },
   components: {

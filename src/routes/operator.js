@@ -1,8 +1,8 @@
 import {OPERATOR} from "@/utils/role";
 import Map from "@/views/operator/Maps";
 import EmptyLayout from "@/layouts/EmptyLayout";
-import ClientTable from "@/views/operator/Clients";
-import OrdersInProcess from "@/views/operator/Orders/orders-in-process";
+import Bookings from "@/views/operator/Bookings/index.vue";
+import BookingsInProcess from "@/views/operator/Bookings/in-process.vue";
 
 
 export const operator = [
@@ -14,36 +14,31 @@ export const operator = [
         component: Map
     },
     {
-        path: "/clients",
-        label: "Mijozlar",
+        path: "/bookings-in-process",
+        label: "Jarayondagi buyurtmalar",
         icon: 'fas fa-file-circle-exclamation',
-        name: 'operator.clients',
+        name: 'operator.bookings_in_process',
         meta: {auth: true, role: OPERATOR},
         component: EmptyLayout,
         children: [
             {
                 path: '',
-                component: ClientTable,
+                component: BookingsInProcess,
                 meta: {auth: true, role: OPERATOR},
-            },
-            {
-                path: '/create',
-                component: ClientTable,
-                meta: {auth: true, role: OPERATOR},
-                name: 'operator.clients.create'
             }
         ]
     },
     {
-        path: "/orders-process",
-        label: "jarayondagi buyurtmalar",
+        path: "/bookings",
+        label: "Barcha buyurtmalar",
         icon: 'fas fa-file-circle-exclamation',
+        name: 'operator.bookings',
         meta: {auth: true, role: OPERATOR},
         component: EmptyLayout,
         children: [
             {
                 path: '',
-                component: OrdersInProcess,
+                component: Bookings,
                 meta: {auth: true, role: OPERATOR},
             }
         ]

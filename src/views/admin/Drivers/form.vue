@@ -141,7 +141,7 @@
                   <span class="ml-2 text-sm">Erkak</span>
                 </label>
                 <label class="flex items-center ml-2">
-                  <input type="radio" id="gender" value="2" v-model="model.gender">
+                  <input type="radio" id="gender" value="2" v-model="model.driver_info.gender">
                   <span class="ml-2 text-sm">Ayol</span>
                 </label>
               </div>

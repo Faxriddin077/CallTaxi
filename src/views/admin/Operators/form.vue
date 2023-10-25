@@ -148,6 +148,7 @@ export default {
 
       if (!isFormCorrect) {
         this.showErrorMessages()
+        this.canSubmit = true
       }
       else {
         let method = this.$route.params.id ? "put" : "post";

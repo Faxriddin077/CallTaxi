@@ -102,7 +102,8 @@ export default {
       model: {
         payment_type: 1,
         tariff_id: 0
-      }
+      },
+      canSubmit: false
     }
   },
   mounted() {

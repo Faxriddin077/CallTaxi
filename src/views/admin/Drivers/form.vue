@@ -219,7 +219,7 @@
                      :class="inputClass"
                      placeholder="Mashina raqami"
                      autocomplete="off"
-                     v-mask="{mask: '## FFFFFF', tokens:customMask}"
+                     v-mask="{mask: ['## FFFFFF'], tokens: customMask}"
                      v-model="car.number">
             </div>
           </div>
@@ -382,10 +382,7 @@ export default {
       carTypes: [],
       tariffs: [],
       customMask: {
-        'F': {
-          pattern: /[0-9a-zA-Z]/,
-          transform: v => v.toLocaleUpperCase()
-        },
+        'F': {pattern: /[0-9a-zA-Z]/, transform: v => v.toLocaleUpperCase()},
         '#': {pattern: /\d/}
       }
     }

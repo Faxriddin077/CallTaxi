@@ -60,7 +60,7 @@
                      :class="inputClass"
                      placeholder="Tug'ilgan sana"
                      autocomplete="off"
-                     v-model="model.driver_info.birth_date">
+                     v-model="model.info.birth_date">
             </div>
           </div>
 
@@ -73,7 +73,7 @@
                      :class="inputClass"
                      placeholder="Manzil"
                      autocomplete="off"
-                     v-model="model.driver_info.address">
+                     v-model="model.info.address">
             </div>
           </div>
 
@@ -100,7 +100,7 @@
                      :class="inputClass"
                      placeholder="Prava nomeri"
                      autocomplete="off"
-                     v-model="model.driver_info.license">
+                     v-model="model.info.license">
             </div>
           </div>
 
@@ -137,11 +137,11 @@
               </label>
               <div class="flex">
                 <label class="flex items-center">
-                  <input type="radio" id="gender" value="1" v-model="model.driver_info.gender"/>
+                  <input type="radio" id="gender" value="1" v-model="model.info.gender"/>
                   <span class="ml-2 text-sm">Erkak</span>
                 </label>
                 <label class="flex items-center ml-2">
-                  <input type="radio" id="gender" value="2" v-model="model.driver_info.gender">
+                  <input type="radio" id="gender" value="2" v-model="model.info.gender">
                   <span class="ml-2 text-sm">Ayol</span>
                 </label>
               </div>
@@ -193,7 +193,7 @@
               </label>
               <select id="status"
                       :class="inputClass"
-                      v-model="model.car.type_id">
+                      v-model="car.type_id">
                 <option v-for="carType in carTypes" :key="carType.id" :value="carType.id">
                   {{carType.model}} ({{ carType.brand }})
                 </option>
@@ -210,7 +210,7 @@
                      :class="inputClass"
                      placeholder="Mashina raqami"
                      autocomplete="off"
-                     v-model="model.car.number">
+                     v-model="car.number">
             </div>
           </div>
 
@@ -223,7 +223,7 @@
                      :class="inputClass"
                      placeholder="Mashina rangi"
                      autocomplete="off"
-                     v-model="model.car.color">
+                     v-model="car.color">
             </div>
           </div>
 
@@ -236,7 +236,7 @@
                      :class="inputClass"
                      placeholder="O'rindiqlar soni"
                      autocomplete="off"
-                     v-model="model.car.count_seats">
+                     v-model="car.count_seats">
             </div>
           </div>
 
@@ -250,7 +250,7 @@
                      placeholder="Mashina yili"
                      autocomplete="off"
                      min="2000" max="2023" step="1"
-                     v-model="model.car.manufacture_date">
+                     v-model="car.manufacture_date">
             </div>
           </div>
 
@@ -261,7 +261,7 @@
               </label>
               <select id="tariff_id"
                       :class="inputClass"
-                      v-model="model.car.tariff_id">
+                      v-model="car.tariff_id">
                 <option v-for="tariff in tariffs" :key="tariff.id" :value="tariff.id">
                   {{ tariff.name }}
                 </option>
@@ -276,7 +276,7 @@
               </label>
               <select id="status"
                       :class="inputClass"
-                      v-model="model.car.status">
+                      v-model="car.status">
                 <option value="0">Aktiv emas</option>
                 <option value="1">Aktiv</option>
               </select>
@@ -366,9 +366,9 @@ export default {
       inputClass: 'border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150',
       model: {
         gender: 1,
-        driver_info: {},
-        car: {}
+        info: {}
       },
+      car: {},
       canSubmit: true,
       carTypes: [],
       tariffs: []
@@ -387,7 +387,7 @@ export default {
           required: helpers.withMessage("<b>Phone</b> field cannot be empty", required),
           minLength: helpers.withMessage("<b>Phone</b> field must be minimum 4 symbols", minLength(4)),
         },
-        driver_info: {
+        info: {
           birth_date: {
             required: helpers.withMessage("<b>Birth date</b> field cannot be empty", required),
           },
@@ -401,7 +401,7 @@ export default {
         },
         card_number: {
           required: helpers.withMessage("<b>Card number</b> field cannot be empty", required),
-          minLength: helpers.withMessage("<b>Card number</b> field must be minimum 4 symbols", minLength(16)),
+          minLength: helpers.withMessage("<b>Card number</b> field must be minimum 16 symbols", minLength(16)),
         },
       }
     }
@@ -409,7 +409,10 @@ export default {
   mounted() {
     if (this.$route.params.id) {
       this.$store.dispatch('get', 'admin/drivers/' + this.$route.params.id)
-        .then(res => this.model = res.data)
+        .then(res => {
+          this.model = res.data.driver
+          this.car = res.data.driver.car ?? {}
+        })
     }
     this.$store.dispatch('get', 'driver/car-types')
       .then(res => this.carTypes = res.data)
@@ -435,27 +438,41 @@ export default {
           model: this.model
         }).then((res) => {
           if (res.success) {
-            this.$router.back()
-            this.$swal.fire({
-              icon: 'success',
-              title: "Success",
-              html: "Driver successfully created!",
-              toast: true,
-              position: "top-end",
-              timer: 3000,
-              showConfirmButton: false
+            this.car.driver_id = res.data.driver.id
+            this.$store.dispatch(method, {
+              url: `/admin/drivers/car/${this.model.car?.id ?? ''}`,
+              model: this.car
+            }).then((res) => {
+              if (res.success) {
+                this.$router.back()
+                this.$swal.fire({
+                  icon: 'success',
+                  title: "Success",
+                  html: "Driver successfully created!",
+                  toast: true,
+                  position: "top-end",
+                  timer: 3000,
+                  showConfirmButton: false
+                })
+              } else {
+                this.showErrorAlert(res.mess)
+              }
             })
-          } else {
-            this.$swal({
-              title: "Error!",
-              text: this.joinObjectArraysToString(res.errors),
-              icon: "error",
-              confirmButtonText: "OK"
-            })
-            this.canSubmit = true
+          }
+          else {
+            this.showErrorAlert(res.errors)
           }
         })
       }
+    },
+    showErrorAlert(errors) {
+      this.$swal({
+        title: "Error!",
+        text: this.joinObjectArraysToString(errors),
+        icon: "error",
+        confirmButtonText: "OK"
+      })
+      this.canSubmit = true
     },
     showErrorMessages() {
       const Toast = this.$swal.mixin({

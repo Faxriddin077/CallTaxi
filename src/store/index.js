@@ -53,7 +53,8 @@ export default createStore({
         },
         // eslint-disable-next-line
         async delete({}, url) {
-            await request.delete(url, { ...this.getters.config });
+            let res = await request.delete(url, { ...this.getters.config });
+            return res.data
         },
         // eslint-disable-next-line
         async login({}, data) {

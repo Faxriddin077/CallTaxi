@@ -48,8 +48,34 @@ export default {
   },
   methods: {
     destroy() {
-      this.$store.dispatch('delete', this.original)
-      location.reload()
+      this.$swal.fire({
+        title: "Ma'lumotni rostan ham o'chirmoqchimisiz?",
+        icon: 'question',
+        confirmButtonText: 'Xa',
+        denyButtonText: 'Yoq',
+        showDenyButton: true,
+        showCloseButton: true,
+        reverseButtons: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.$store.dispatch('delete', this.original).then((response) => {
+            if (response.success) {
+              this.$swal.fire({
+                icon: 'success',
+                title: "Success",
+                html: "Data successfully deleted!",
+                toast: true,
+                position: "top-end",
+                timer: 3000,
+                showConfirmButton: false
+              })
+              setTimeout(() => {
+                location.reload()
+              }, 1000)
+            }
+          })
+        }
+      })
     },
     toggleDropdown: function(event) {
       event.preventDefault();

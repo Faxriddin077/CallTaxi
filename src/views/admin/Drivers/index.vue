@@ -51,7 +51,7 @@ export default {
     return {
       rowClass: 'border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4',
       avatar,
-      headers: ["Ism", "Telefon", "Mashina raqami", "Holati", "Mablag\u2018", ""],
+      headers: ["Tartib", "Ism", "Telefon", "Mashina raqami", "Holati", "Mablag\u2018", ""],
       data: [],
       url: '/admin/drivers'
     }

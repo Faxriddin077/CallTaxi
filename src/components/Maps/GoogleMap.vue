@@ -31,7 +31,7 @@ export default {
       const opt = {
         center: position,
         mapTypeId: getGoogleMaps().MapTypeId.ROADMAP,
-        zoom: 8, // scroll wheel: false,
+        zoom: 14, // scroll wheel: false,
         styles: map_style
       };
 

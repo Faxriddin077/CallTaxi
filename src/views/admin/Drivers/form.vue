@@ -219,7 +219,8 @@
                      :class="inputClass"
                      placeholder="Mashina raqami"
                      autocomplete="off"
-                     v-mask="{mask: ['## FFFFFF'], tokens: customMask}"
+                     @keyup="changeMask($event.target.value)"
+                     v-mask="inputMask"
                      v-model="car.number">
             </div>
           </div>
@@ -381,10 +382,7 @@ export default {
       car: {},
       carTypes: [],
       tariffs: [],
-      customMask: {
-        'F': {pattern: /[0-9a-zA-Z]/, transform: v => v.toLocaleUpperCase()},
-        '#': {pattern: /\d/}
-      }
+      inputMask: '## XXXXXX'
     }
   },
   validations() {
@@ -448,6 +446,13 @@ export default {
         .then(res => {
           this.model = res.data.driver
           this.car = res.data.driver.car ?? {}
+          if (this.car?.number) {
+            if (this.isNumeric(this.car.number[2])) {
+              this.inputMask = '## X## AAA'
+            } else {
+              this.inputMask = '## X ### AA'
+            }
+          }
         })
     }
     this.$store.dispatch('get', 'driver/car-types')
@@ -507,6 +512,7 @@ export default {
       }
       else {
         this.car.driver_id = this.model.id
+        this.car.number = this.car.number.replace(/\s/g, '')
         let method = this.car?.id ? "put" : "post";
         this.$store.dispatch(method, {
           url: `/admin/drivers/car/${this.car?.id ?? ''}`,
@@ -569,6 +575,19 @@ export default {
       }
 
       return result;
+    },
+    changeMask(number) {
+      if (number.length === 4) {
+        if(!this.isNumeric(number[3])) {
+          this.inputMask = '## X ### AA'
+        }
+        else {
+          this.inputMask = '## X## AAA'
+        }
+      }
+    },
+    isNumeric: function (n) {
+      return !isNaN(parseFloat(n)) && isFinite(n);
     }
   }
 }

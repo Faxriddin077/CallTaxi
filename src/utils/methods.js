@@ -38,7 +38,7 @@ export function stringify(data) {
 
 // Geolocation
 export function getCurrentLocation() {
-    let position = {lat: 41.853398, lng: 60.388230};
+    let position = {lat: 41.54214231800138, lng: 60.63157875439325};
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(pos => {
             position = {

@@ -219,6 +219,7 @@
                      :class="inputClass"
                      placeholder="Mashina raqami"
                      autocomplete="off"
+                     v-mask="{mask: '## FFFFFF', tokens:customMask}"
                      v-model="car.number">
             </div>
           </div>
@@ -293,7 +294,6 @@
           </div>
 
         </div>
-
         <br>
         <div class="flex flex-wrap justify-end">
           <button type="submit"
@@ -380,7 +380,14 @@ export default {
       },
       car: {},
       carTypes: [],
-      tariffs: []
+      tariffs: [],
+      customMask: {
+        'F': {
+          pattern: /[0-9a-zA-Z]/,
+          transform: v => v.toLocaleUpperCase()
+        },
+        '#': {pattern: /\d/}
+      }
     }
   },
   validations() {
@@ -454,8 +461,9 @@ export default {
   },
   methods: {
     async submit() {
-      const isDriverFormCorrect = await this.v$.$validate()
-      if (!isDriverFormCorrect) {
+      await this.v$.$validate()
+      const modelFormValidationErrors = await this.v$.model.$errors
+      if (modelFormValidationErrors.length) {
         this.showErrorMessages('model')
       }
       else {
@@ -508,7 +516,7 @@ export default {
           model: this.car
         }).then((res) => {
           if (res.success) {
-            // this.$router.back()
+            this.$router.back()
             this.$swal.fire({
               icon: 'success',
               title: "Success",

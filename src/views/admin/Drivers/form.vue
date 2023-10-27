@@ -119,14 +119,30 @@
 
           <div class="w-full lg:w-3/12 px-4">
             <div class="relative w-full mb-3">
-              <label for="email" class="block uppercase text-blueGray-600 text-xs font-bold mb-2">
-                Pochtani kiriting
+              <label for="balance" class="block uppercase text-blueGray-600 text-xs font-bold mb-2">
+                Balansni kiriting
               </label>
-              <input type="text" id="email"
+              <input type="number" id="balance"
                      :class="inputClass"
-                     placeholder="Pochtani kiriting"
+                     placeholder="Balans kiriting"
                      autocomplete="off"
-                     v-model="model.email">
+                     v-model="model.balance">
+            </div>
+          </div>
+
+          <div class="w-full lg:w-3/12 px-4">
+            <div class="relative w-full mb-3">
+              <label for="email" class="block uppercase text-blueGray-600 text-xs font-bold mb-2">
+                Statusni tanlang
+              </label>
+              <select id="status"
+                      :class="inputClass"
+                      v-model="model.status">
+                <option value="-1">Undefined(-1)</option>
+                <option value="0">OFFLINE</option>
+                <option value="1">ONLINE</option>
+                <option value="2">BUSY</option>
+              </select>
             </div>
           </div>
 
@@ -150,21 +166,6 @@
 
           <div class="w-full lg:w-3/12 px-4">
             <div class="relative w-full mb-3">
-              <label for="email" class="block uppercase text-blueGray-600 text-xs font-bold mb-2">
-                Statusni tanlang
-              </label>
-              <select id="status"
-                     :class="inputClass"
-                      v-model="model.status">
-                <option value="0">OFFLINE</option>
-                <option value="1">ONLINE</option>
-                <option value="2">BUSY</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="w-full lg:w-3/12 px-4">
-            <div class="relative w-full mb-3">
               <div class="personal-image">
                 <label class="label">
                   <input type="file" :name="model.img"/>
@@ -180,6 +181,14 @@
           </div>
         </div>
 
+        <div class="flex flex-wrap justify-end">
+          <button type="submit"
+                  class="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
+            Saqlash
+          </button>
+        </div>
+      </form>
+      <form @submit.prevent="carSubmit">
         <hr class="mt-6 border-b-1 border-blueGray-300">
         <h6 class="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
           Mashina ma'lumotlari
@@ -287,7 +296,7 @@
 
         <br>
         <div class="flex flex-wrap justify-end">
-          <button type="submit" :disabled="!canSubmit"
+          <button type="submit"
                   class="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
             Saqlash
           </button>
@@ -299,6 +308,7 @@
 <style>
 .personal-image {
   text-align: center;
+  width: 50%;
 }
 
 .personal-image input[type="file"] {
@@ -369,7 +379,6 @@ export default {
         info: {}
       },
       car: {},
-      canSubmit: true,
       carTypes: [],
       tariffs: []
     }
@@ -403,6 +412,29 @@ export default {
           required: helpers.withMessage("<b>Card number</b> field cannot be empty", required),
           minLength: helpers.withMessage("<b>Card number</b> field must be minimum 16 symbols", minLength(16)),
         },
+      },
+      car: {
+        type_id: {
+          required: helpers.withMessage("<b>Car type</b> field cannot be empty", required),
+        },
+        number: {
+          required: helpers.withMessage("<b>Car number</b> field cannot be empty", required),
+        },
+        color: {
+          required: helpers.withMessage("<b>Car color</b> field cannot be empty", required),
+        },
+        count_seats: {
+          required: helpers.withMessage("<b>Car count seats</b> field cannot be empty", required),
+        },
+        manufacture_date: {
+          required: helpers.withMessage("<b>Car manufactured date</b> field cannot be empty", required),
+        },
+        tariff_id: {
+          required: helpers.withMessage("<b>Tariff</b> field cannot be empty", required),
+        },
+        status: {
+          required: helpers.withMessage("<b>Car status</b> field cannot be empty", required),
+        },
       }
     }
   },
@@ -422,14 +454,11 @@ export default {
   },
   methods: {
     async submit() {
-      this.canSubmit = false
-      const isFormCorrect = await this.v$.$validate()
-
-      if (!isFormCorrect) {
-        this.showErrorMessages()
-        this.canSubmit = true
-      } else {
-        this.canSubmit = true
+      const isDriverFormCorrect = await this.v$.$validate()
+      if (!isDriverFormCorrect) {
+        this.showErrorMessages('model')
+      }
+      else {
         let method = this.$route.params.id ? "put" : "post";
         this.model.phone = this.unmask(this.model.phone)
         this.model.card_number = this.unmask(this.model.card_number)
@@ -438,28 +467,58 @@ export default {
           model: this.model
         }).then((res) => {
           if (res.success) {
-            this.car.driver_id = res.data.driver.id
-            this.$store.dispatch(method, {
-              url: `/admin/drivers/car/${this.model.car?.id ?? ''}`,
-              model: this.car
-            }).then((res) => {
-              if (res.success) {
-                this.$router.back()
-                this.$swal.fire({
-                  icon: 'success',
-                  title: "Success",
-                  html: "Driver successfully created!",
-                  toast: true,
-                  position: "top-end",
-                  timer: 3000,
-                  showConfirmButton: false
-                })
-              } else {
-                this.showErrorAlert(res.mess)
-              }
+            this.$swal.fire({
+              icon: 'success',
+              title: "Success",
+              html: "Driver successfully created!",
+              toast: true,
+              position: "top-end",
+              timer: 3000,
+              showConfirmButton: false
             })
           }
           else {
+            this.showErrorAlert(res.errors)
+          }
+        })
+      }
+    },
+    async carSubmit() {
+      // eslint-disable-next-line no-prototype-builtins
+      if (!this.model.hasOwnProperty('id')) {
+        this.$swal({
+          title: "Error!",
+          text: "First should add driver!",
+          icon: "error",
+          confirmButtonText: "OK"
+        })
+        return
+      }
+
+      await this.v$.$validate()
+      const carFormValidationErrors = await this.v$.car.$errors
+      if (carFormValidationErrors.length) {
+        this.showErrorMessages('car')
+      }
+      else {
+        this.car.driver_id = this.model.id
+        let method = this.car?.id ? "put" : "post";
+        this.$store.dispatch(method, {
+          url: `/admin/drivers/car/${this.car?.id ?? ''}`,
+          model: this.car
+        }).then((res) => {
+          if (res.success) {
+            // this.$router.back()
+            this.$swal.fire({
+              icon: 'success',
+              title: "Success",
+              html: "Car successfully created!",
+              toast: true,
+              position: "top-end",
+              timer: 3000,
+              showConfirmButton: false
+            })
+          } else {
             this.showErrorAlert(res.errors)
           }
         })
@@ -472,9 +531,8 @@ export default {
         icon: "error",
         confirmButtonText: "OK"
       })
-      this.canSubmit = true
     },
-    showErrorMessages() {
+    showErrorMessages(object) {
       const Toast = this.$swal.mixin({
         toast: true,
         position: 'top-end',
@@ -487,7 +545,7 @@ export default {
         }
       })
       let messages = ""
-      this.v$.$errors.map((value) => {
+      this.v$[object].$errors.map((value) => {
         messages += value.$message + "<br>"
       })
       Toast.fire({

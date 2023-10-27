@@ -33,6 +33,7 @@ export const admin = [
         children: [
             {
                 path: '',
+                name: 'admin.operators.index',
                 component: Operators,
                 meta: {auth: true, role: ADMIN}
             },
@@ -58,6 +59,7 @@ export const admin = [
         children: [
             {
                 path: '',
+                name: 'admin.drivers.index',
                 component: Drivers,
             },
             {

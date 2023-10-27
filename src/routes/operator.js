@@ -23,6 +23,7 @@ export const operator = [
         children: [
             {
                 path: '',
+                name: 'operator.bookings_in_process.index',
                 component: BookingsInProcess,
                 meta: {auth: true, role: OPERATOR},
             }
@@ -38,6 +39,7 @@ export const operator = [
         children: [
             {
                 path: '',
+                name: 'operator.bookings.index',
                 component: Bookings,
                 meta: {auth: true, role: OPERATOR},
             }

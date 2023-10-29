@@ -1,5 +1,5 @@
 <template>
-  <table-layout heading="Mijozlar" :headers="headers">
+  <table-layout heading="Jarayondagi buyurtmalar" :headers="headers" :link="'/bookings/create'">
     <tr v-for="model in data" :key="model.id">
       <th :class="rowClass + 'text-left flex items-center'">
         {{ model.id }}
@@ -14,17 +14,20 @@
         <i :class="'fas fa-circle mr-2 ' + statusClass(model.status)"></i>
         <span>{{ statusText(model.status) }}</span>
       </td>
+      <td :class="rowClass + 'text-right'">
+        <table-dropdown url="/orders" :id="model.id"/>
+      </td>
     </tr>
   </table-layout>
 </template>
 
 <script>
-import TableLayout from "@/components/Tables/TableLayout";
 import avatar from "@/assets/img/avatar.svg";
-
+import TableLayout from "@/components/Tables/TableLayout.vue";
+import TableDropdown from "@/components/Dropdowns/TableDropdown.vue";
 
 export default {
-  name: "bookings-index",
+  name: "bookings-in-process",
   props: {
     color: {
       default: "light",
@@ -38,12 +41,13 @@ export default {
     return {
       rowClass: 'border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4',
       avatar,
-      headers: ["Tr", "Manzil", "Telefon raqam", "Holati"],
-      data: {}
+      headers: ["Tr", "Manzil", "Telefon raqam", "Holati", ""],
+      data: []
     }
   },
   components: {
-    TableLayout
+    TableLayout,
+    TableDropdown
   },
   mounted() {
     this.$store.dispatch('get', '/operator/booking/all').then(res => this.data = res.data.bookings)
@@ -72,5 +76,9 @@ export default {
       }
     }
   }
-};
+}
 </script>
+
+<style scoped>
+
+</style>

@@ -23,7 +23,7 @@ export const routes = [
     {
         path: '/operator',
         label: "Operator",
-        redirect: '/booking',
+        redirect: '/bookings/create',
         component: OperatorLayout,
         meta: {auth: true, role: OPERATOR},
         children: operator

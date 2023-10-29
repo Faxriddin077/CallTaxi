@@ -9,7 +9,7 @@
             {{ heading }}
           </h3>
         </div>
-        <router-link :to="link" class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150">
+        <router-link :to="link" v-if="addButton" class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150">
           Yaratish
         </router-link>
       </div>
@@ -51,6 +51,10 @@ export default {
     },
     link: {
       default: ""
+    },
+    addButton: {
+      type: Boolean,
+      default: true
     },
     color: {
       default: "light",

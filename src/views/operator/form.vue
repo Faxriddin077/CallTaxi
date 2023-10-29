@@ -87,7 +87,7 @@
 
 <script>
 import {mask} from 'vue-the-mask';
-import GoogleMap from "@/components/Maps/GoogleMap";
+import GoogleMap from "@/components/Maps/GoogleMap.vue";
 
 
 export default {
@@ -141,7 +141,7 @@ export default {
             this.canSubmit = true
           }
         },
-        () => this.$router.push({name: 'operator.bookings_in_process'})
+        () => this.$router.push({name: 'operator.bookings.in_process'})
       );
     },
     setup(pos) {

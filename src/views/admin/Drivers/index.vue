@@ -63,14 +63,18 @@ export default {
     TableDropdown
   },
   mounted() {
-    this.$store.dispatch('get', '/admin/drivers').then(res => this.data = res.data)
+    this.getDrivers()
   },
   methods: {
+    getDrivers() {
+      this.$store.dispatch('get', '/admin/drivers').then(res => this.data = res.data)
+    },
     changeCarStatus(driver_id) {
       this.$store.dispatch('post', {
         url: '/admin/drivers/' + driver_id + '/activate',
         model: {}
       })
+      this.getDrivers()
     }
   }
 };

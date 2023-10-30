@@ -121,6 +121,10 @@ export default {
       }).then(
         (res) => {
           if (res.success) {
+            this.model = {
+              payment_type: 1,
+              tariff_id: 0
+            }
             this.$swal.fire({
               icon: 'success',
               title: "Success",

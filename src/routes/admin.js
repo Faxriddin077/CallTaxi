@@ -1,5 +1,6 @@
 import {ADMIN, OPERATOR} from "@/utils/role";
 import TestView from "@/views/admin/TestView";
+import BookingsHistory from "@/views/admin/Bookings/history.vue";
 import EmptyLayout from "@/layouts/EmptyLayout";
 import Operators from "@/views/admin/Operators";
 import OperatorForm from "@/views/admin/Operators/form";
@@ -22,6 +23,13 @@ export const admin = [
         icon: 'fas fa-chart-line',
         meta: {auth: true, role: ADMIN},
         component: TestView
+    },
+    {
+        path: "/bookings-history",
+        label: "Buyurtmalar tarixi",
+        icon: 'fas fa-solid fa-book',
+        meta: {auth: true, role: ADMIN},
+        component: BookingsHistory
     },
     {
         path: "/operators",

@@ -5,8 +5,8 @@
       <i class="fas fa-ellipsis-v"></i>
     </a>
     <div class="bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg min-w-48"
-      ref="popoverDropdownRef"
-      v-bind:class="{
+         ref="popoverDropdownRef"
+         v-bind:class="{
         hidden: !dropdownPopoverShow,
         block: dropdownPopoverShow,
       }"
@@ -77,7 +77,7 @@ export default {
         }
       })
     },
-    toggleDropdown: function(event) {
+    toggleDropdown: function (event) {
       event.preventDefault();
       if (this.dropdownPopoverShow) {
         this.dropdownPopoverShow = false;

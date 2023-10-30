@@ -73,8 +73,9 @@ export default {
       this.$store.dispatch('post', {
         url: '/admin/drivers/' + driver_id + '/activate',
         model: {}
+      }).then(() => {
+        this.getDrivers()
       })
-      this.getDrivers()
     }
   }
 };

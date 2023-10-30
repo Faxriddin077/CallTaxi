@@ -455,9 +455,9 @@ export default {
           }
         })
     }
-    this.$store.dispatch('get', 'driver/car-types')
+    this.$store.dispatch('get', 'admin/car-types')
       .then(res => this.carTypes = res.data)
-    this.$store.dispatch('get', 'driver/tariffs')
+    this.$store.dispatch('get', 'admin/tariffs')
       .then(res => this.tariffs = res.data.tariffs)
 
   },

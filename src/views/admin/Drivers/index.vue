@@ -17,8 +17,10 @@
         <span>{{ model.car?.number }}</span>
       </td>
       <td :class="rowClass">
-        <i class="fas fa-circle mr-2" :class="model.car?.status ? 'text-emerald-500' : 'text-red-500'"></i>
-        <span>{{ model.car?.status ? 'Aktiv' : 'Aktiv emas' }}</span>
+        <button @click.prevent="changeCarStatus(model.id)" class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full uppercase last:mr-0 mr-1 "
+              :class="model.car?.status ? 'text-emerald-600 bg-emerald-200' : 'text-red-600 bg-red-200'">
+          {{ model.car?.status ? 'Aktiv' : 'Aktiv emas' }}
+        </button>
       </td>
       <td :class="rowClass">
         <span>{{ price(model.balance) }}</span>
@@ -62,6 +64,14 @@ export default {
   },
   mounted() {
     this.$store.dispatch('get', '/admin/drivers').then(res => this.data = res.data)
+  },
+  methods: {
+    changeCarStatus(driver_id) {
+      this.$store.dispatch('post', {
+        url: '/admin/drivers/' + driver_id + '/activate',
+        model: {}
+      })
+    }
   }
 };
 </script>

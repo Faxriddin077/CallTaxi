@@ -3,9 +3,9 @@
     <nav class="block">
       <ul class="flex pl-0 rounded list-none flex-wrap">
         <li>
-          <a :aria-disabled="pagination.current_page > 1" @click.prevent="changePage(pagination.current_page - 1)" :class="pageIndexClass + 'bg-white text-emerald-500'">
+          <button :disabled="pagination.current_page == 1" @click.prevent="changePage(pagination.current_page - 1)" :class="pageIndexClass + 'bg-white text-emerald-500'">
             <i class="fas fa-chevron-left -ml-px"></i>
-          </a>
+          </button>
         </li>
         <li v-for="(page, i) in pagesNumber" :key="i">
           <a @click.prevent="changePage(page)" :class="pageIndexClass + activePage(page == pagination.current_page)">
@@ -13,9 +13,9 @@
           </a>
         </li>
         <li>
-          <a :aria-disabled="pagination.current_page >= pagination.last_page"  @click.prevent="changePage(pagination.current_page + 1)" :class="pageIndexClass + 'bg-white text-emerald-500'">
+          <button :disabled="pagination.current_page == pagination.last_page"  @click.prevent="changePage(pagination.current_page + 1)" :class="pageIndexClass + 'bg-white text-emerald-500'">
             <i class="fas fa-chevron-right -mr-px"></i>
-          </a>
+          </button>
         </li>
       </ul>
     </nav>

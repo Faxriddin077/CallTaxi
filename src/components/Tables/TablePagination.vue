@@ -13,7 +13,7 @@
           </a>
         </li>
         <li>
-          <a :aria-disabled="pagination.current_page > pagination.last_page"  @click.prevent="changePage(pagination.current_page + 1)" :class="pageIndexClass + 'bg-white text-emerald-500'">
+          <a :aria-disabled="pagination.current_page >= pagination.last_page"  @click.prevent="changePage(pagination.current_page + 1)" :class="pageIndexClass + 'bg-white text-emerald-500'">
             <i class="fas fa-chevron-right -mr-px"></i>
           </a>
         </li>

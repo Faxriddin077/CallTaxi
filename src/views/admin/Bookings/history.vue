@@ -5,7 +5,7 @@
       {{ model.id }}
     </td>
     <td :class="rowClass">
-      {{ phoneFormatter(model.client.phone) }}
+      {{ phoneFormatter(model.client?.phone) }}
     </td>
     <td :class="rowClass">
       {{ model.driver?.name }}
@@ -27,7 +27,7 @@
       <span>{{ statusText(model.status) }}</span>
     </td>
     <td :class="rowClass">
-      {{ model.user.name }}
+      {{ model.user?.name }}
     </td>
     <td :class="rowClass + 'text-right'">
       <table-dropdown url="/tariffs" :id="model.id"/>

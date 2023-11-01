@@ -45,9 +45,8 @@ export default {
         from = 1;
       }
       let to = from + (this.offset * 2);
-      let countPages = this.pagination.total / this.pagination.per_page
-      if (to >= countPages) {
-        to = countPages;
+      if (to >= this.pagination.last_page) {
+        to = this.pagination.last_page;
       }
       let pagesArray = [];
       for (let page = from; page <= to; page++) {

@@ -49,7 +49,7 @@ export default {
     return {
       rowClass: 'border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4',
       avatar,
-      headers: ["Nomi", "Mijoz", "Daqiqa", "Km", "Vip", "Minimalka", "Shahar tashqarisi", ""],
+      headers: ["Nomi", "Mijoz", "Daqiqa", "Km", "Bir oy", "Chaqirish xaqi", "Shahar tashqarisi", ""],
       data: [],
       url: '/admin/tariffs'
     }

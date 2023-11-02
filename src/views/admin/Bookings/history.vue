@@ -78,9 +78,9 @@ export default {
     },
     statusText(status) {
       if (status == 1) {
-        return 'completed'
+        return 'tugallangan'
       } else {
-        return 'cancelled'
+        return 'bekor qilingan'
       }
     },
     statusClass(status) {

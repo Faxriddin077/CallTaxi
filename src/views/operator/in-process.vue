@@ -93,11 +93,11 @@ export default {
     },
     statusText(status) {
       if (status == 0) {
-        return 'new'
+        return 'yangi'
       } else if (status == 1) {
-        return 'created'
+        return 'yaratilgan'
       } else if (status == 2) {
-        return 'process'
+        return 'jarayonda'
       }
     },
     statusClass(status) {

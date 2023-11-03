@@ -11,6 +11,9 @@
         {{ phoneFormatter(model.client.phone) }}
       </td>
       <td :class="rowClass">
+        {{ model.driver?.name }}
+      </td>
+      <td :class="rowClass">
         <i :class="'fas fa-circle mr-2 ' + statusClass(model.status)"></i>
         <span>{{ statusText(model.status) }}</span>
       </td>
@@ -47,7 +50,7 @@ export default {
     return {
       rowClass: 'border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4',
       avatar,
-      headers: ["Tr", "Manzil", "Telefon raqam", "Holati", ""],
+      headers: ["Tr", "Manzil", "Telefon raqam", "Haydovchi", "Holati", ""],
       data: []
     }
   },

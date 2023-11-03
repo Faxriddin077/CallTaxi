@@ -40,7 +40,7 @@
 
         <ul class="md:flex-col md:min-w-full flex flex-col list-none">
           <li v-for="route in routes" :key="route.path">
-            <router-link :to="route.path" v-slot="{ href, navigate, isActive }">
+            <router-link :to="route.path" v-slot="{ href, navigate, isActive }" v-if="route.section !== 2">
               <a :href="href"
                  @click="navigate"
                  class="text-xs uppercase py-3 font-bold block"
@@ -59,6 +59,24 @@
 
         <!-- Divider -->
         <hr class="my-4 md:min-w-full"/>
+        <ul class="md:flex-col md:min-w-full flex flex-col list-none">
+          <li>
+            <router-link :to="'/bookings-history'" v-slot="{ href, navigate, isActive }">
+              <a :href="href"
+                 @click="navigate"
+                 class="text-xs uppercase py-3 font-bold block"
+                 :class="[
+                     isActive
+                     ? 'text-emerald-500 hover:text-emerald-600'
+                     : 'text-blueGray-700 hover:text-blueGray-500',
+                 ]"
+              >
+                <i class="mr-2 text-sm" :class="['fas fa-solid fa-book', isActive ? 'opacity-75' : 'text-blueGray-300']"></i>
+                <span>Buyurtmalar tarixi</span>
+              </a>
+            </router-link>
+          </li>
+        </ul>
       </div>
     </div>
   </nav>

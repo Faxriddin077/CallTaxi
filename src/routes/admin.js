@@ -29,6 +29,7 @@ export const admin = [
         path: "/bookings-history",
         label: "Buyurtmalar tarixi",
         icon: 'fas fa-solid fa-book',
+        section: 2, // Show under divider in sidebar
         meta: {auth: true, role: ADMIN},
         component: BookingsHistory
     },

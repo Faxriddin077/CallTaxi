@@ -29,9 +29,6 @@
       <td :class="rowClass">
         {{ model.user?.name }}
       </td>
-      <td :class="rowClass + 'text-right'">
-        <table-dropdown url="/tariffs" :id="model.id"/>
-      </td>
     </tr>
   </table-layout>
   <table-pagination :pagination="data" @paginate="getData"/>
@@ -40,7 +37,6 @@
 <script>
 import avatar from "@/assets/img/avatar.svg";
 import TableLayout from "@/components/Tables/TableLayout.vue";
-import TableDropdown from "@/components/Dropdowns/TableDropdown.vue";
 import TablePagination from "@/components/Tables/TablePagination.vue";
 
 export default {
@@ -66,8 +62,7 @@ export default {
   },
   components: {
     TablePagination,
-    TableLayout,
-    TableDropdown
+    TableLayout
   },
   mounted() {
     this.getData()

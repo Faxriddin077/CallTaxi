@@ -10,6 +10,9 @@
       <td :class="rowClass">
         {{ model.address }}
       </td>
+      <td :class="rowClass">
+        {{ model.additional }}
+      </td>
       <td :class="rowClass + 'text-right'">
         <table-dropdown url="/points" :id="model.id" :original="url + '/' + model.id"/>
       </td>
@@ -37,7 +40,7 @@ export default {
     return {
       rowClass: "border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4",
       avatar,
-      headers: ["Tr", "Nom", "Address", "Tahrirlash"],
+      headers: ["Tr", "Nom", "Mo'ljal", "Qo'shimcha", "Tahrirlash"],
       data: [],
       url: '/admin/points'
     }

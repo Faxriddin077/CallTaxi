@@ -29,6 +29,12 @@
       <td :class="rowClass">
         {{ model.user?.name }}
       </td>
+      <td :class="rowClass">
+        {{ formatDate(model.created_at) }}
+      </td>
+      <td :class="rowClass">
+        {{ formatDate(model.updated_at) }}
+      </td>
     </tr>
   </table-layout>
   <table-pagination :pagination="data" @paginate="getData"/>
@@ -38,6 +44,7 @@
 import avatar from "@/assets/img/avatar.svg";
 import TableLayout from "@/components/Tables/TableLayout.vue";
 import TablePagination from "@/components/Tables/TablePagination.vue";
+import {formatDate} from "../../../utils/methods";
 
 export default {
   name: "booking-history-index",
@@ -54,7 +61,9 @@ export default {
     return {
       rowClass: 'border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4',
       avatar,
-      headers: ["Nomi", "Mijoz", "Haydovchi", "Daqiqa", "Km", "Yo'l haqi", "Xizmat haqi", "Status", "Kim tomonidan", ""],
+      headers: [
+        "ID", "Mijoz", "Haydovchi", "Daqiqa", "Km", "Yo'l haqi", "Xizmat haqi", "Status", "Kim tomonidan", "Yaratildi", "Tugatildi", ""
+      ],
       data: {
         current_page: 1
       },
@@ -68,6 +77,7 @@ export default {
     this.getData()
   },
   methods: {
+    formatDate,
     getData() {
       this.$store.dispatch('get', `/admin/bookings-history/all?page=${this.data.current_page}`).then(res => this.data = res.data)
     },

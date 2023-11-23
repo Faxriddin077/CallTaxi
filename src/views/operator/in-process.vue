@@ -101,6 +101,8 @@ export default {
         return 'yaratilgan'
       } else if (status == 2) {
         return 'jarayonda'
+      } else if (status == -1) {
+        return 'bekor qilingan'
       }
     },
     statusClass(status) {
@@ -110,6 +112,8 @@ export default {
         return 'text-yellow-400'
       } else if (status == 2) {
         return 'text-orange-600'//'text-teal-500'
+      } else if (status == -1) {
+        return 'text-red'//'text-teal-500'
       }
     }
   }

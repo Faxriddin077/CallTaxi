@@ -70,3 +70,19 @@ export function getPosition(latLng) {
 export function createInfoWindow(google, opt = {content: 'Mana shu'}) {
     return new google.maps.InfoWindow(opt)
 }
+
+export function formatDate(date) {
+    let d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear(),
+        hour = d.getHours().toString().padStart(2, '0'),
+        minute = d.getMinutes().toString().padStart(2, '0');
+
+    if (month.length < 2)
+        month = '0' + month;
+    if (day.length < 2)
+        day = '0' + day;
+
+    return [year, month, day].join('-') + ' ' + hour + ':' + minute;
+}

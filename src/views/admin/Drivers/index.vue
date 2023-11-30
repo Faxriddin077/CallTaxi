@@ -25,6 +25,11 @@
       <td :class="rowClass">
         <span>{{ price(model.balance) }}</span>
       </td>
+      <td :class="rowClass">
+        <button @click.prevent="changeBalance(model.id)" class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full uppercase last:mr-0 mr-1 text-red-600 bg-blueGray-200">
+          +
+        </button>
+      </td>
       <td :class="rowClass + 'text-right'">
         <table-dropdown url="/drivers" :id="model.id" :original="url + '/' + model.id"/>
       </td>
@@ -53,7 +58,7 @@ export default {
     return {
       rowClass: 'border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4',
       avatar,
-      headers: ["Tartib", "Ism", "Telefon", "Mashina raqami", "Holati", "Mablag\u2018", ""],
+      headers: ["Tartib", "Ism", "Telefon", "Mashina raqami", "Holati", "Mablag\u2018", "", ""],
       data: [],
       url: '/admin/drivers'
     }
@@ -75,6 +80,40 @@ export default {
         model: {}
       }).then(() => {
         this.getDrivers()
+      })
+    },
+    changeBalance(driver_id) {
+      this.$swal.fire({
+        title: "Balansni to'ldirish uchun summani kiriting:",
+        icon: 'info',
+        input: "text",
+        confirmButtonText: 'Xa',
+        confirmButtonColor: "#37966B",
+        denyButtonText: 'Yoq',
+        showDenyButton: true,
+        showCloseButton: true,
+        reverseButtons: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.$store.dispatch('post', {
+            url: `/admin/drivers/${driver_id}/pay`,
+            model: {sum: result.value}
+          }).then((response) => {
+            if (response.success) {
+              this.$swal.fire({
+                icon: 'success',
+                title: "Success",
+                html: "Balance successfully replanished!",
+                toast: true,
+                position: "top-end",
+                timer: 3000,
+                showConfirmButton: false
+              })
+              // load drivers
+              this.getDrivers()
+            }
+          })
+        }
       })
     }
   }

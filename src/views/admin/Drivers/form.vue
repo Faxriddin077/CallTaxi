@@ -117,20 +117,7 @@
             </div>
           </div>
 
-          <div class="w-full lg:w-3/12 px-4">
-            <div class="relative w-full mb-3">
-              <label for="balance" class="block uppercase text-blueGray-600 text-xs font-bold mb-2">
-                Balansni kiriting
-              </label>
-              <input type="number" id="balance"
-                     :class="inputClass"
-                     placeholder="Balans kiriting"
-                     autocomplete="off"
-                     v-model="model.balance">
-            </div>
-          </div>
-
-          <div class="w-full lg:w-3/12 px-4">
+          <div class="w-full lg:w-6/12 px-4">
             <div class="relative w-full mb-3">
               <label for="email" class="block uppercase text-blueGray-600 text-xs font-bold mb-2">
                 Statusni tanlang
@@ -411,7 +398,6 @@ export default {
           }
         },
         card_number: {
-          required: helpers.withMessage("<b>Card number</b> field cannot be empty", required),
           minLength: helpers.withMessage("<b>Card number</b> field must be minimum 16 symbols", minLength(16)),
         },
       },
@@ -471,7 +457,9 @@ export default {
       else {
         let method = this.$route.params.id ? "put" : "post";
         this.model.phone = this.unmask(this.model.phone)
-        this.model.card_number = this.unmask(this.model.card_number)
+        if (this.model.card_number) {
+          this.model.card_number = this.unmask(this.model.card_number)
+        }
         this.$store.dispatch(method, {
           url: `/admin/drivers/${this.$route.params.id ?? ''}`, // this.$route.matched[1].path,
           model: this.model

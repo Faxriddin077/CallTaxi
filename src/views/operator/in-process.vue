@@ -92,9 +92,7 @@ export default {
                 timer: 3000,
                 showConfirmButton: false
               })
-              setTimeout(() => {
-                location.reload()
-              }, 1000)
+              this.fetchData()
             }
           })
         }

@@ -18,12 +18,13 @@
         <span>{{ statusText(model.status) }}</span>
       </td>
       <td :class="rowClass + ' align-center text-right'">
-        <router-link :to="'#'"
-                     class="bg-lightBlue-400 text-white active:bg-emerald-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150">
+        <button @click.prevent="resend(model.id)" :class="'bg-lightBlue-400 ' + btnClass">
+          <i class="fas fa-share"></i>
+        </button>
+        <router-link :to="'#'" :class="'bg-yellow-500 ' + btnClass">
           <i class="fas fa-pen-alt"></i>
         </router-link>
-        <button @click.prevent="destroy(model.id)"
-                class="bg-red-400 text-white active:bg-emerald-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150">
+        <button @click.prevent="destroy(model.id)" :class="'bg-red-400 ' + btnClass">
           <i class="fas fa-trash-alt"></i>
         </button>
       </td>
@@ -49,18 +50,56 @@ export default {
   data() {
     return {
       rowClass: 'border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4',
+      btnClass: 'text-white active:bg-emerald-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150',
       avatar,
       headers: ["Tr", "Manzil", "Telefon raqam", "Haydovchi", "Holati", ""],
-      data: []
+      data: {}
     }
   },
   components: {
     TableLayout
   },
   mounted() {
-    this.$store.dispatch('get', '/operator/booking/all').then(res => this.data = res.data.bookings)
+    this.fetchData()
   },
   methods: {
+    fetchData() {
+      this.$store.dispatch('get', '/operator/booking/all').then(res => this.data = res.data.bookings)
+    },
+    resend(model_id) {
+      this.$swal.fire({
+        title: "Buyurtmani qaytadan e'lon qilmoqchimisiz?",
+        icon: 'question',
+        confirmButtonText: 'Xa',
+        confirmButtonColor: '#00a10b',
+        denyButtonText: 'Yoq',
+        showDenyButton: true,
+        showCloseButton: true,
+        reverseButtons: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.$store.dispatch('post', {
+            url: "/operator/booking/resend",
+            model: {booking_id: model_id}
+          }).then((response) => {
+            if (response.success) {
+              this.$swal.fire({
+                icon: 'success',
+                title: "Success",
+                html: "Data successfully sent!",
+                toast: true,
+                position: "top-end",
+                timer: 3000,
+                showConfirmButton: false
+              })
+              setTimeout(() => {
+                location.reload()
+              }, 1000)
+            }
+          })
+        }
+      })
+    },
     destroy(model_id) {
       this.$swal.fire({
         title: "Ma'lumotni rostan ham o'chirmoqchimisiz?",
@@ -86,33 +125,31 @@ export default {
                 timer: 3000,
                 showConfirmButton: false
               })
-              setTimeout(() => {
-                location.reload()
-              }, 1000)
+              this.fetchData()
             }
           })
         }
       })
     },
     statusText(status) {
-      if (status == 0) {
+      if (status === 0) {
         return 'yangi'
-      } else if (status == 1) {
+      } else if (status === 1) {
         return 'yaratilgan'
-      } else if (status == 2) {
+      } else if (status === 2) {
         return 'jarayonda'
-      } else if (status == -1) {
+      } else if (status === -1) {
         return 'bekor qilingan'
       }
     },
     statusClass(status) {
-      if (status == 0) {
+      if (status === 0) {
         return 'text-yellow-400'
-      } else if (status == 1) {
+      } else if (status === 1) {
         return 'text-yellow-400'
-      } else if (status == 2) {
+      } else if (status === 2) {
         return 'text-orange-600'//'text-teal-500'
-      } else if (status == -1) {
+      } else if (status === -1) {
         return 'text-red'//'text-teal-500'
       }
     }

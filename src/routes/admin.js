@@ -1,6 +1,7 @@
 import {ADMIN, OPERATOR} from "@/utils/role";
 import TestView from "@/views/admin/TestView";
 import Statistics from "@/views/admin/statistics.vue";
+import Transactions from "@/views/admin/transactions.vue";
 import BookingsHistory from "@/views/admin/Bookings/history.vue";
 import EmptyLayout from "@/layouts/EmptyLayout";
 import Operators from "@/views/admin/Operators";
@@ -81,6 +82,13 @@ export const admin = [
                 component: DriverForm
             }
         ]
+    },
+    {
+        path: "/transactions",
+        label: "Tranzaksiyalar tarixi",
+        icon: 'fas fa-money-bill',
+        meta: {auth: true, role: ADMIN},
+        component: Transactions
     },
     {
         path: "/tariffs",

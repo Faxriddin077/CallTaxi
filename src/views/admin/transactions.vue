@@ -1,30 +1,20 @@
 <template>
-  <table-layout heading="Buyurtmalar" :headers="headers" :addButton="false">
+  <table-layout heading="Tranzaksiyalar" :headers="headers" :addButton="false">
     <tr v-for="model in data.data" :key="model.id">
       <td :class="rowClass">
         {{ model.id }}
       </td>
       <td :class="rowClass">
-        {{ phoneFormatter(model.client?.phone) }}
+        {{ model.user?.name }} {{ model.user?.surname}}
       </td>
       <td :class="rowClass">
-        {{ model.driver?.name }}
+        {{ model.driver?.name }} {{ model.driver?.surname}}
       </td>
       <td :class="rowClass">
-        {{ model.duration }}
+        {{ model.address }}
       </td>
       <td :class="rowClass">
-        {{ model.distance }}
-      </td>
-      <td :class="rowClass">
-        {{ model.fare }}
-      </td>
-      <td :class="rowClass">
-        {{ model.service_fee }}
-      </td>
-      <td :class="rowClass">
-        <i :class="'fas fa-circle mr-2 ' + statusClass(model.status)"></i>
-        <span>{{ statusText(model.status) }}</span>
+        {{ model.amount }}
       </td>
       <td :class="rowClass">
         {{ model.user?.name }}
@@ -41,13 +31,14 @@
 </template>
 
 <script>
+
 import avatar from "@/assets/img/avatar.svg";
 import TableLayout from "@/components/Tables/TableLayout.vue";
 import TablePagination from "@/components/Tables/TablePagination.vue";
 import {formatDate} from "@/utils/methods";
 
 export default {
-  name: "booking-history-index",
+  name: "transactions-index",
   props: {
     color: {
       default: "light",
@@ -62,7 +53,7 @@ export default {
       rowClass: 'border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4',
       avatar,
       headers: [
-        "ID", "Mijoz", "Haydovchi", "Daqiqa", "Km", "Yo'l haqi", "Xizmat haqi", "Status", "Kim tomonidan", "Yaratildi", "Tugatildi", ""
+        "ID", "Mijoz", "Haydovchi", "Manzil", "Xizmat haqi", "Kim tomonidan", "Yaratildi", "Tugatildi", ""
       ],
       data: {
         current_page: 1,
@@ -80,26 +71,11 @@ export default {
   methods: {
     formatDate,
     getData(url2 = null) {
-      let url = '/admin/bookings-history/all'
+      let url = '/admin/transactions'
       if (url2) {
         url = url2
       }
-        /*`/admin/bookings-history/all?page=${page}`*/
       this.$store.dispatch('get', url).then(res => this.data = res.data)
-    },
-    statusText(status) {
-      if (status == 1) {
-        return 'tugallangan'
-      } else {
-        return 'bekor qilingan'
-      }
-    },
-    statusClass(status) {
-      if (status == 1) {
-        return 'text-emerald-500'
-      } else {
-        return 'text-red-500'//'text-teal-500'
-      }
     }
   }
 }

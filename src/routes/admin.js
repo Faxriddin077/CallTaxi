@@ -1,5 +1,4 @@
 import {ADMIN, OPERATOR} from "@/utils/role";
-import TestView from "@/views/admin/TestView";
 import Statistics from "@/views/admin/statistics.vue";
 import Transactions from "@/views/admin/transactions.vue";
 import BookingsHistory from "@/views/admin/Bookings/history.vue";
@@ -33,6 +32,14 @@ export const admin = [
         section: 2, // Show under divider in sidebar
         meta: {auth: true, role: ADMIN},
         component: BookingsHistory
+    },
+    {
+        path: "/transactions",
+        label: "Tranzaksiyalar tarixi",
+        icon: 'fas fa-money-bill',
+        section: 2, // Show under divider in sidebar
+        meta: {auth: true, role: ADMIN},
+        component: Transactions
     },
     {
         path: "/operators",
@@ -82,13 +89,6 @@ export const admin = [
                 component: DriverForm
             }
         ]
-    },
-    {
-        path: "/transactions",
-        label: "Tranzaksiyalar tarixi",
-        icon: 'fas fa-money-bill',
-        meta: {auth: true, role: ADMIN},
-        component: Transactions
     },
     {
         path: "/tariffs",
@@ -174,11 +174,11 @@ export const admin = [
             }
         ]
     },
-    {
-        path: "/test-view",
-        label: "Jadval",
-        icon: 'fas fa-table',
-        meta: {auth: true, role: ADMIN},
-        component: TestView
-    }
+    // {
+    //     path: "/test-view",
+    //     label: "Jadval",
+    //     icon: 'fas fa-table',
+    //     meta: {auth: true, role: ADMIN},
+    //     component: TestView
+    // }
 ];

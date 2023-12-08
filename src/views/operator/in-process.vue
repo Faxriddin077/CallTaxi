@@ -21,9 +21,6 @@
         <button @click.prevent="resend(model.id)" :class="'bg-lightBlue-400 ' + btnClass">
           <i class="fas fa-share"></i>
         </button>
-        <router-link :to="'#'" :class="'bg-yellow-500 ' + btnClass">
-          <i class="fas fa-pen-alt"></i>
-        </router-link>
         <button @click.prevent="destroy(model.id)" :class="'bg-red-400 ' + btnClass">
           <i class="fas fa-trash-alt"></i>
         </button>
@@ -85,8 +82,8 @@ export default {
             if (response.success) {
               this.$swal.fire({
                 icon: 'success',
-                title: "Success",
-                html: "Data successfully sent!",
+                title: "Muvaffaqiyatli!",
+                html: "Buyurtma qayta e'lon qilindi",
                 toast: true,
                 position: "top-end",
                 timer: 3000,
@@ -116,8 +113,8 @@ export default {
             if (response.success) {
               this.$swal.fire({
                 icon: 'success',
-                title: "Success",
-                html: "Data successfully deleted!",
+                title: "Muvaffaqiyatli!",
+                html: "Buyurtma o'chirildi",
                 toast: true,
                 position: "top-end",
                 timer: 3000,

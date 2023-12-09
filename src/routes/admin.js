@@ -35,7 +35,7 @@ export const admin = [
     },
     {
         path: "/transactions",
-        label: "Tranzaksiyalar tarixi",
+        label: "O'tkazmalar tarixi",
         icon: 'fas fa-money-bill',
         section: 2, // Show under divider in sidebar
         meta: {auth: true, role: ADMIN},

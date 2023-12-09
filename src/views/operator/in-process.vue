@@ -17,7 +17,7 @@
         <i :class="'fas fa-circle mr-2 ' + statusClass(model.status)"></i>
         <span>{{ statusText(model.status) }}</span>
       </td>
-      <td :class="rowClass + ' align-center text-right'">
+      <td :class="rowClass + ' align-center text-right'" v-if="[0, -1].includes(model.status)">
         <button @click.prevent="resend(model.id)" :class="'bg-lightBlue-400 ' + btnClass">
           <i class="fas fa-share"></i>
         </button>

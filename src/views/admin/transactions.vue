@@ -14,9 +14,6 @@
         {{ model.amount }}
       </td>
       <td :class="rowClass">
-        {{ model.user?.name }}
-      </td>
-      <td :class="rowClass">
         {{ formatDate(model.created_at) }}
       </td>
     </tr>
@@ -47,7 +44,7 @@ export default {
       rowClass: 'border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4',
       avatar,
       headers: [
-        "ID", "Mijoz", "Haydovchi", "Xizmat haqi", "Kim tomonidan", "O'tkazilgan sana", ""
+        "ID", "Kimdan", "Kimga", "O'tkazma miqdori", "O'tkazilgan sana", ""
       ],
       data: {
         current_page: 1,

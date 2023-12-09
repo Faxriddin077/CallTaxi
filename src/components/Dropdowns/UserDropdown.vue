@@ -15,11 +15,13 @@
       }"
     >
       <button type="button" class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">
+        <i class="fas fa-user"></i>
         <router-link to="/">
-          Hisob
+           Hisob
         </router-link>
       </button>
       <button type="button" @click="signOut" class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">
+        <i class="fas fa-right-from-bracket"></i>
         Chiqish
       </button>
     </div>

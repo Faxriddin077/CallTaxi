@@ -44,7 +44,7 @@ export default {
       rowClass: 'border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4',
       avatar,
       headers: [
-        "ID", "Kimdan", "Kimga", "O'tkazma miqdori", "O'tkazilgan sana", ""
+        "ID", "Kim tomonidan", "Haydovchi", "O'tkazma miqdori", "O'tkazilgan sana", ""
       ],
       data: {
         current_page: 1,

@@ -172,7 +172,7 @@ export default {
   mounted() {
     if (this.$route.params.id) {
       this.$store.dispatch('get', `/admin/tariffs/${this.$route.params.id}`)
-        .then(res => this.model = res.data)
+        .then(res => this.model = res.data.tariff)
     }
   },
   methods: {

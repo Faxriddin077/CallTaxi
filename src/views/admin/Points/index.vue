@@ -42,7 +42,7 @@ export default {
       avatar,
       headers: ["Tr", "Nom", "Mo'ljal", "Qo'shimcha", "Tahrirlash"],
       data: [],
-      url: '/admin/points'
+      url: '/admin/addresses'
     }
   },
   components: {

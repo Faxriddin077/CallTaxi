@@ -12,6 +12,10 @@
         <router-link :to="link" v-if="addButton" class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150">
           Yaratish
         </router-link>
+
+        <input v-if="addDates" type="date" class="font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150">
+        --&#160;
+        <input v-if="addDates" type="date" class="font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150">
       </div>
     </div>
     <div class="block w-full overflow-x-auto">
@@ -55,6 +59,10 @@ export default {
     addButton: {
       type: Boolean,
       default: true
+    },
+    addDates: {
+      type: Boolean,
+      default: false
     },
     color: {
       default: "light",

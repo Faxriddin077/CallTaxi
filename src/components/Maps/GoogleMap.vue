@@ -23,11 +23,40 @@ export default {
     }
   },
   methods: {
+    getLocation() {
+      return new Promise((resolve, reject) => {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(resolve, reject);
+        } else {
+          reject(new Error("Geolocation is not supported by this browser."));
+        }
+      });
+    },
+    async fetchLocation() {
+      try {
+        const pos = await this.getLocation();
+        return {
+          lat: pos.coords.latitude,
+          lng: pos.coords.longitude,
+        };
+      } catch (error) {
+        this.$swal.fire({
+          title: "Iltimos tizim to'g'ri ishlashi uchun geolokatsiyaga ruxsat bering (yoki brauzeringizni yangilang)!",
+          icon: 'info',
+          confirmButtonText: 'Ok',
+          showCloseButton: true,
+        })
+        return {
+          lat: 41.54214231800138,
+          lng: 60.63157875439325
+        };
+      }
+    },
     setPosition(pos) {
       this.$emit('setup', getPosition(pos))
     },
-    initMap() {
-      const position = LatLng()
+    async initMap() { // main function
+      const position = LatLng(await this.fetchLocation())
       const opt = {
         center: position,
         mapTypeId: getGoogleMaps().MapTypeId.ROADMAP,

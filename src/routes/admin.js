@@ -133,7 +133,7 @@ export const admin = [
         ]
     },
     {
-        path: "/points",
+        path: "/addresses",
         label: "Manzillar",
         icon: 'fas fa-location',
         meta: {auth: true, role: ADMIN},

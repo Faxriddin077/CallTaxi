@@ -1,5 +1,5 @@
 <template>
-  <table-layout heading="Buyurtmalar" :headers="headers" :addButton="false">
+  <table-layout heading="Buyurtmalar" :headers="headers" :addButton="false" :addDates="true">
     <tr v-for="model in data.data" :key="model.id">
       <td :class="rowClass">
         {{ model.id }}

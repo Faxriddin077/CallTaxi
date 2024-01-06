@@ -34,7 +34,7 @@
                      :class="inputClass"
                      placeholder="Tuman"
                      autocomplete="off"
-                     v-model="model.address">
+                     v-model="model.target">
             </div>
           </div>
         </div>
@@ -73,8 +73,8 @@ export default {
   },
   mounted() {
     if (this.$route.params.id) {
-      this.$store.dispatch('get', 'admin/points/' + this.$route.params.id)
-        .then(res => this.model = res.data)
+      this.$store.dispatch('get', 'admin/addresses/' + this.$route.params.id)
+        .then(res => this.model = res.data.address)
     }
     this.markers = [];
     this.map = this.initMap();
@@ -83,8 +83,8 @@ export default {
     submit() {
       let method = this.$route.params.id ? "put" : "post";
       this.$store.dispatch(method, {
-        url: `/admin/points/${this.$route.params.id ?? ''}`,
-        model: this.model
+        url: `/admin/addresses/${this.$route.params.id ?? ''}`,
+        model: {...this.model, branch_id: 1}
       }).then(() => this.$router.back())
     },
     setPosition(pos) {
@@ -116,6 +116,8 @@ export default {
       google.maps.event.addListener(map, 'click', (event) => {
         let pos = event.latLng;
         this.setPosition(pos)
+        this.model.latitude = pos.lat();
+        this.model.longitude = pos.lng();
         marker.setPosition(pos);
       });
 

@@ -1,17 +1,17 @@
 <template>
-  <table-layout heading="Tranzaksiyalar" :headers="headers" :addButton="false">
+  <table-layout heading="O'tkazmalar" :headers="headers" :addButton="false">
     <tr v-for="model in data.data" :key="model.id">
       <td :class="rowClass">
         {{ model.id }}
-      </td>
-      <td :class="rowClass">
-        {{ model.user?.name }} {{ model.user?.surname}}
       </td>
       <td :class="rowClass">
         {{ model.driver?.name }} {{ model.driver?.surname}}
       </td>
       <td :class="rowClass">
         {{ model.amount }}
+      </td>
+      <td :class="rowClass">
+        {{ model.user?.name }} {{ model.user?.surname}}
       </td>
       <td :class="rowClass">
         {{ formatDate(model.created_at) }}
@@ -44,7 +44,7 @@ export default {
       rowClass: 'border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4',
       avatar,
       headers: [
-        "ID", "Kimdan", "Kimga", "O'tkazma miqdori", "O'tkazilgan sana", ""
+        "ID", "Haydovchi", "O'tkazma miqdori", "Kim tomonidan", "O'tkazilgan sana", ""
       ],
       data: {
         current_page: 1,

@@ -7,12 +7,12 @@
         <div class="flex flex-wrap">
           <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
             <card-stats
-              statSubtitle="Operatorlar"
-              statTitle="350,897"
-              statArrow="up"
-              statPercent="3.48"
-              statPercentColor="text-emerald-500"
-              statDescripiron="Umumiy soni"
+              statSubtitle="Buyurtmalar"
+              :statTitle="thisMonthBookings"
+              :statArrow="thisMonthBookings > previousMonthBookings ? 'up' : 'down'"
+              :statPercent="bookingsPercent"
+              :statPercentColor="arrowColor(bookingsPercent)"
+              :statDescripiron="'Oldingi oy: ' + previousMonthBookings"
               statIconName="far fa-chart-bar"
               statIconColor="bg-red-500"
             />
@@ -20,11 +20,11 @@
           <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
             <card-stats
               statSubtitle="Kunlik tushum"
-              statTitle="924"
-              statArrow="down"
-              statPercent="1.10"
-              statPercentColor="text-orange-500"
-              statDescripiron="Bari"
+              :statTitle="todayIncome"
+              :statArrow="todayIncome > yesterdayIncome ? 'up' : 'down'"
+              :statPercent="incomePercent"
+              :statPercentColor="arrowColor(incomePercent)"
+              :statDescripiron="'Kecha: ' + yesterdayIncome"
               statIconName="fas fa-users"
               statIconColor="bg-pink-500"
             />
@@ -32,11 +32,11 @@
           <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
             <card-stats
               statSubtitle="Haydovchilar daromadi"
-              statTitle="49,65%"
+              statTitle="49,65%??"
               statArrow="up"
               statPercent="12"
               statPercentColor="text-emerald-500"
-              statDescripiron="Bari"
+              statDescripiron="Bari??"
               statIconName="fas fa-percent"
               statIconColor="bg-emerald-500"
             />
@@ -44,11 +44,11 @@
           <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
             <card-stats
               statSubtitle="Haydovchilar"
-              statTitle="2,356"
-              statArrow="down"
-              statPercent="3.48"
-              statPercentColor="text-red-500"
-              statDescripiron="Yangi qo&#8216;shilgan"
+              :statTitle="driversInToday"
+              :statArrow="driversInToday > driversInPreviousMonth ? 'up' : 'down'"
+              :statPercent="driversPercent"
+              :statPercentColor="arrowColor(driversPercent)"
+              :statDescripiron="'Oldingi oy: ' + driversInPreviousMonth"
               statIconName="fas fa-chart-pie"
               statIconColor="bg-orange-500"
             />
@@ -66,5 +66,50 @@ export default {
   components: {
     CardStats,
   },
+  data() {
+    return {
+      previousMonthBookings: 0,
+      thisMonthBookings: 0,
+      bookingsPercent: 0,
+      yesterdayIncome: 0,
+      todayIncome: 0,
+      incomePercent: 0,
+      driversInPreviousMonth: 0,
+      driversInToday: 0,
+      driversPercent: 0
+    }
+  },
+  async mounted() {
+    await this.$store.dispatch('get', {url: '/admin/header-stats'}).then(res => {
+      this.previousMonthBookings = res.data.previousMonthBookings
+      this.thisMonthBookings = res.data.thisMonthBookings
+      this.yesterdayIncome = res.data.yesterdayIncome
+      this.todayIncome = res.data.todayIncome
+      this.driversInPreviousMonth = res.data.driversInPreviousMonth
+      this.driversInToday = res.data.driversInToday
+    })
+    this.bookingsPercent = this.calculateIncreasePercent(this.previousMonthBookings, this.thisMonthBookings)
+    this.incomePercent = this.calculateIncreasePercent(this.yesterdayIncome, this.todayIncome)
+    this.driversPercent = this.calculateIncreasePercent(this.driversInPreviousMonth, this.driversInToday)
+  },
+  methods: {
+    calculateIncreasePercent(originalNumber, newNumber) {
+      if (originalNumber === 0) {
+        // Handle division by zero
+        return newNumber === 0 ? 0 : Infinity; // Or handle it according to your needs
+      }
+      let increasePercent = ((newNumber - originalNumber) / originalNumber) * 100;
+      return Number(increasePercent.toFixed(2)); // Round to two decimal places
+    },
+    arrowColor(percent) {
+      if (percent > 0) {
+        return 'text-emerald-500'
+      } else if (percent < -60) {
+        return 'text-red-500'
+      } else {
+        return 'text-orange-500'
+      }
+    }
+  }
 };
 </script>

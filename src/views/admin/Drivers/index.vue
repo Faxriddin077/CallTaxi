@@ -72,7 +72,7 @@ export default {
   },
   methods: {
     getDrivers() {
-      this.$store.dispatch('get', '/admin/drivers').then(res => this.data = res.data)
+      this.$store.dispatch('get', {url: '/admin/drivers'}).then(res => this.data = res.data)
     },
     changeCarStatus(driver_id) {
       this.$store.dispatch('post', {

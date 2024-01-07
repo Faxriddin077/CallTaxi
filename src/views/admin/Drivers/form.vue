@@ -428,7 +428,7 @@ export default {
   },
   mounted() {
     if (this.$route.params.id) {
-      this.$store.dispatch('get', 'admin/drivers/' + this.$route.params.id)
+      this.$store.dispatch('get', {url: 'admin/drivers/' +this.$route.params.id})
         .then(res => {
           this.model = res.data.driver
           this.car = res.data.driver.car ?? {}
@@ -441,9 +441,9 @@ export default {
           }
         })
     }
-    this.$store.dispatch('get', 'admin/car-types')
+    this.$store.dispatch('get', {url: 'admin/car-types'})
       .then(res => this.carTypes = res.data)
-    this.$store.dispatch('get', 'admin/tariffs')
+    this.$store.dispatch('get', {url: 'admin/tariffs'})
       .then(res => this.tariffs = res.data.tariffs)
 
   },

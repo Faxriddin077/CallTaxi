@@ -59,7 +59,7 @@ export default {
     TableDropdown
   },
   mounted() {
-    this.$store.dispatch('get', this.url)
+    this.$store.dispatch('get', {url: this.url})
       .then(res => this.data = res.data.tariffs)
   }
 }

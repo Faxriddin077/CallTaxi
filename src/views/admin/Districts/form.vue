@@ -61,7 +61,7 @@ export default {
   },
   mounted() {
     if (this.$route.params.id) {
-      this.$store.dispatch('get', 'admin/districts/' + this.$route.params.id)
+      this.$store.dispatch('get', {url: 'admin/districts/' + this.$route.params.id})
         .then(res => this.model = res.data)
     }
     this.markers = [];

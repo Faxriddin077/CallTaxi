@@ -13,9 +13,14 @@
           Yaratish
         </router-link>
 
-        <input v-if="addDates" type="date" class="font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150">
-        --&#160;
-        <input v-if="addDates" type="date" class="font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150">
+        <div v-if="addDates">
+          <input v-model="from" type="date" :class=defaultClass>
+          <input v-model="to" type="date" :class=defaultClass>
+          <button :class="'bg-emerald-500 text-white ' + defaultClass" @click="reloadEvent">
+            <i class="text-sm fas fa-solid fa-rotate-right"></i>
+          </button>
+        </div>
+
       </div>
     </div>
     <div class="block w-full overflow-x-auto">
@@ -72,5 +77,17 @@ export default {
       },
     },
   },
+  data() {
+    return {
+      from: '',
+      to: '',
+      defaultClass: "font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+    }
+  },
+  methods: {
+    reloadEvent() {
+      this.$emit('fetchData', {from: this.from, to: this.to});
+    }
+  }
 };
 </script>

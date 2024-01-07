@@ -1,5 +1,5 @@
 <template>
-  <table-layout heading="Buyurtmalar" :headers="headers" :addButton="false" :addDates="true">
+  <table-layout heading="Buyurtmalar" :headers="headers" :addButton="false" :addDates="true" @fetchData="fetch">
     <tr v-for="model in data.data" :key="model.id">
       <td :class="rowClass">
         {{ model.id }}
@@ -37,7 +37,7 @@
       </td>
     </tr>
   </table-layout>
-  <table-pagination :pagination="data.links" :pages="data" @paginate="getData"/>
+  <table-pagination :pagination="data.links" :pages="data" @fetchData="fetch"/>
 </template>
 
 <script>
@@ -64,6 +64,7 @@ export default {
       headers: [
         "ID", "Mijoz", "Haydovchi", "Daqiqa", "Km", "Yo'l haqi", "Xizmat haqi", "Status", "Kim tomonidan", "Yaratildi", "Tugatildi", ""
       ],
+      queryParams: {},
       data: {
         current_page: 1,
         links: []
@@ -79,13 +80,12 @@ export default {
   },
   methods: {
     formatDate,
-    getData(url2 = null) {
-      let url = '/admin/bookings-history/all'
-      if (url2) {
-        url = url2
-      }
-        /*`/admin/bookings-history/all?page=${page}`*/
-      this.$store.dispatch('get', url).then(res => this.data = res.data)
+    getData() {
+      this.$store.dispatch('get', {url: '/admin/bookings-history/all', params: this.queryParams}).then(res => this.data = res.data)
+    },
+    fetch(params) {
+      this.queryParams = { ...this.queryParams, ...params}
+      this.getData()
     },
     statusText(status) {
       if (status == 1) {

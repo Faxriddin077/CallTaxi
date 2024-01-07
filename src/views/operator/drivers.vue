@@ -49,7 +49,7 @@ export default {
     TableLayout
   },
   mounted() {
-    this.$store.dispatch('get', '/operator/driver/active').then(res => this.data = res.data)
+    this.$store.dispatch('get', {url: '/operator/driver/active'}).then(res => this.data = res.data)
   },
   methods: {
     statusText(status) {

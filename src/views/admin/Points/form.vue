@@ -95,7 +95,7 @@ export default {
     initMap() {
       const position = LatLng()
       const opt = {
-        center: position,
+        center: {lat: position.lat() ? position.lat() : parseFloat(41.54214231800138), lng: position.lng() ? position.lng() : parseFloat(60.63157875439325)},
         mapTypeId: getGoogleMaps().MapTypeId.ROADMAP,
         zoom: 8, // scroll wheel: false,
         styles: map_style
@@ -116,8 +116,6 @@ export default {
       google.maps.event.addListener(map, 'click', (event) => {
         let pos = event.latLng;
         this.setPosition(pos)
-        this.model.latitude = pos.lat();
-        this.model.longitude = pos.lng();
         marker.setPosition(pos);
       });
 

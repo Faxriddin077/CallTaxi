@@ -113,7 +113,7 @@ export default {
     },
     // Set position from another component
     selectLocation(address) {
-      let position = LatLng({latitude: address.latitude, longitude: address.longitude});
+      let position = LatLng({lat: address.latitude, lng: address.longitude});
       this.marker.setPosition(position)
     },
     // Sets the map on all markers in the array.

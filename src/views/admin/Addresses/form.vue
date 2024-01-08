@@ -2,24 +2,24 @@
   <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0">
     <div class="rounded-t bg-white mb-0 px-6 py-6">
       <div class="text-center flex justify-between">
-        <h6 class="text-blueGray-700 text-xl font-bold">Ma'lumotlarni yangilash</h6>
+        <h6 class="text-blueGray-700 text-xl font-bold">Manzil</h6>
       </div>
     </div>
     <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
       <form @submit.prevent="submit">
         <h6 class="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
-          Asosiy ma'lumotlar
+          Asosiy ma&#8217;lumotlar
         </h6>
 
         <div class="flex flex-wrap">
           <div class="w-full lg:w-6/12 px-4">
             <div class="relative w-full mb-3">
               <label for="brand" class="block uppercase text-blueGray-600 text-xs font-bold mb-2">
-                Manzil nomini kiriting
+                Manzilni kiriting
               </label>
               <input type="text" id="brand" name="brand"
                      :class="inputClass"
-                     placeholder="Qisqa nom"
+                     placeholder="Manzil"
                      autocomplete="off"
                      v-model="model.name">
             </div>
@@ -28,11 +28,11 @@
           <div class="w-full lg:w-6/12 px-4">
             <div class="relative w-full mb-3">
               <label for="brand" class="block uppercase text-blueGray-600 text-xs font-bold mb-2">
-                Manzil adresini kiriting
+                Mo&#8216;jalni kiriting
               </label>
               <input type="text" id="address" name="address"
                      :class="inputClass"
-                     placeholder="Tuman"
+                     placeholder="Mo&#8216;ljal"
                      autocomplete="off"
                      v-model="model.target">
             </div>
@@ -60,7 +60,7 @@
 
 <script>
 
-import {createInfoWindow, getGoogleMaps, getPosition, LatLng} from "@/utils/methods";
+import {createInfoWindow, getGoogleMaps, getPosition, LatLng, myLocation} from "@/utils/methods";
 import {google, map_style} from "@/utils";
 
 export default {
@@ -73,7 +73,7 @@ export default {
   },
   mounted() {
     if (this.$route.params.id) {
-      this.$store.dispatch('get', {url: 'admin/addresses/' +this.$route.params.id})
+      this.$store.dispatch('get', {url: 'admin/addresses/' + this.$route.params.id})
         .then(res => this.model = res.data.address)
     }
     this.markers = [];
@@ -85,7 +85,19 @@ export default {
       this.$store.dispatch(method, {
         url: `/admin/addresses/${this.$route.params.id ?? ''}`,
         model: {...this.model, branch_id: 1}
-      }).then(() => this.$router.back())
+      }).then((res) => {
+        if (res.success) {
+          this.$router.back()
+          return;
+        }
+
+        this.$swal({
+          title: "Xato!",
+          text: res.msg,
+          icon: "error",
+          confirmButtonText: "Tushunarli"
+        })
+      })
     },
     setPosition(pos) {
       this.model.latitude = pos.lat();
@@ -93,7 +105,10 @@ export default {
       this.$emit('setup', getPosition(pos))
     },
     initMap() {
-      const position = LatLng()
+      const position = LatLng({
+        lat: 41.54214231800138,
+        lng: 60.63157875439325
+      })
       const opt = {
         center: position,
         mapTypeId: getGoogleMaps().MapTypeId.ROADMAP,
@@ -116,10 +131,24 @@ export default {
       google.maps.event.addListener(map, 'click', (event) => {
         let pos = event.latLng;
         this.setPosition(pos)
-        this.model.latitude = pos.lat();
-        this.model.longitude = pos.lng();
         marker.setPosition(pos);
       });
+
+      myLocation().then(geolocation => {
+        if (this.$route.params.id) {
+          return;
+        }
+
+        let position = geolocation.coords;
+        let pos = LatLng({
+          lat: position.latitude,
+          lng: position.longitude
+        });
+
+        map.setCenter(pos)
+        marker.setPosition(pos);
+        this.setPosition(pos);
+      })
 
       return map;
     },

@@ -47,7 +47,7 @@ export function getCurrentLocation() {
                 lng: pos.coords.longitude,
             };
         }, (error) => {
-            switch(error.code) {
+            switch (error.code) {
                 case error.PERMISSION_DENIED:
                     console.log("User denied the request for Geolocation.");
                     break;
@@ -82,7 +82,17 @@ export function LatLng(position) {
 }
 
 export function getPosition(latLng) {
-    return { ...latLng }
+    return {...latLng}
+}
+
+export async function myLocation() {
+    return new Promise((resolve, reject) => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(resolve, reject);
+        } else {
+            reject(new Error("Geolocation is not supported by this browser."));
+        }
+    });
 }
 
 export function createInfoWindow(google, opt = {content: 'Mana shu'}) {

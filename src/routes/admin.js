@@ -13,8 +13,8 @@ import CarTypes from "@/views/admin/CarTypes";
 import CarTypeForm from "@/views/admin/CarTypes/form";
 import Districts from "@/views/admin/Districts";
 import DistrictForm from "@/views/admin/Districts/form";
-import Points from "@/views/admin/Points";
-import PointForm from "@/views/admin/Points/form";
+import Points from "@/views/admin/Addresses";
+import PointForm from "@/views/admin/Addresses/form";
 
 export const admin = [
     {

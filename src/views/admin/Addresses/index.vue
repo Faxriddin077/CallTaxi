@@ -14,7 +14,7 @@
         {{ model.additional }}
       </td>
       <td :class="rowClass + 'text-right'">
-        <table-dropdown url="/addresess" :id="model.id" :original="url + '/' + model.id" @otherData="changeData"/>
+        <table-dropdown url="/addresses" :id="model.id" :original="url + '/' + model.id" @otherData="changeData"/>
       </td>
     </tr>
   </table-layout>
@@ -30,7 +30,7 @@ export default {
   props: {
     color: {
       default: "light",
-      validator: function (value) {
+      validator: function(value) {
         // The value must match one of these strings
         return ["light", "dark"].indexOf(value) !== -1;
       },
@@ -52,13 +52,11 @@ export default {
   mounted() {
     this.$store.dispatch('get', {url: this.url})
       .then(res => this.data = res.data.addresses)
-
   },
   methods: {
     changeData() {
-      this.$store.dispatch('get', this.url)
-      .then(res => this.data = res.data.addresses)
-
+      this.$store.dispatch('get', {url: this.url})
+        .then(res => this.data = res.data.addresses)
     }
   }
 }

@@ -4,7 +4,7 @@
       <ul class="flex pl-0 rounded list-none flex-wrap">
         <li v-for="(page, i) in pagination" :key="page.label">
           <button
-            @click.prevent="changePage(page.url)"
+            @click.prevent="changePage(page.label)"
             :class="pageIndexClass + activePage(page.active)"
             :disabled="!page.url"
           >
@@ -32,10 +32,15 @@ export default {
     }
   },
   methods: {
-    changePage(url) {
-      if (url) {
-        this.$emit('paginate', url);
+    changePage(page) {
+      if (page[0] === 'N') { // Next
+        this.currentPage += 1
+      } else if (page[0] === '&') { // Previous
+        this.currentPage -= 1
+      } else {
+        this.currentPage = parseInt(page)
       }
+      this.$emit('fetchData', {page: this.currentPage});
     },
     activePage(isActive) {
       return isActive ? 'text-white bg-emerald-500' : 'bg-white text-emerald-500';
@@ -46,6 +51,7 @@ export default {
   },
   data() {
     return {
+      currentPage: 1,
       pageIndexClass: "first:ml-0 text-xs font-semibold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-emerald-500 "
     };
   }

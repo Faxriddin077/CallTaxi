@@ -83,6 +83,17 @@ export default {
 
                 await this.$router.push(url ? url : '/');
             }
+            else {
+              this.$swal.fire({
+                icon: 'error',
+                title: "Xatolik!",
+                html: "Login parol topilmadi",
+                toast: true,
+                position: "top-end",
+                timer: 3000,
+                showConfirmButton: false
+              })
+            }
         }
     }
 };

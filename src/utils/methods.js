@@ -38,14 +38,32 @@ export function stringify(data) {
 
 // Geolocation
 export function getCurrentLocation() {
-    let position = {lat: 41.54214231800138, lng: 60.63157875439325};
+    let position = {}
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(pos => {
+            console.log(pos.coords.latitude)
             position = {
                 lat: pos.coords.latitude,
                 lng: pos.coords.longitude,
             };
+        }, (error) => {
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    console.log("User denied the request for Geolocation.");
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    console.log("Location information is unavailable.");
+                    break;
+                case error.TIMEOUT:
+                    console.log("The request to get user location timed out.");
+                    break;
+                case error.UNKNOWN_ERROR:
+                    console.log("An unknown error occurred.");
+                    break;
+            }
         })
+    } else {
+        position = {lat: 41.54214231800138, lng: 60.63157875439325};
     }
 
     return position;
@@ -59,8 +77,8 @@ export function getGoogleMaps() {
     return google.maps;
 }
 
-export function LatLng() {
-    return new google.maps.LatLng(getCurrentLocation());
+export function LatLng(position) {
+    return new google.maps.LatLng(position);
 }
 
 export function getPosition(latLng) {

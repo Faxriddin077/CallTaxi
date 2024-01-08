@@ -37,8 +37,8 @@ export default createStore({
     },
     actions: {
         // eslint-disable-next-line
-        async get({dispatch, commit}, url) {
-            let res = await request.get(url, { ...this.getters.config });
+        async get({dispatch, commit}, {url, params = {}}) {
+            let res = await request.get(url, { ...this.getters.config, params: params});
             return res.data;
         },
         // eslint-disable-next-line

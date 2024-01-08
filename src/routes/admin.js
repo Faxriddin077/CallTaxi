@@ -133,7 +133,6 @@ export const admin = [
     },
     {
         path: "/addresses",
-        name: "addresses",
         label: "Manzillar",
         icon: "fas fa-location",
         meta: { auth: true, role: ADMIN },
@@ -142,7 +141,6 @@ export const admin = [
         children: [
             {
                 path: "",
-                name: "points",
                 component: Points,
             },
             {

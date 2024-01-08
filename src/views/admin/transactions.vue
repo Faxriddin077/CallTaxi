@@ -66,7 +66,7 @@ export default {
       if (url2) {
         url = url2
       }
-      this.$store.dispatch('get', url).then(res => this.data = res.data)
+      this.$store.dispatch('get', {url}).then(res => this.data = res.data)
     }
   }
 }

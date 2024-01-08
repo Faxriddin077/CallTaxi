@@ -61,7 +61,7 @@ export default {
   },
   methods: {
     fetchData() {
-      this.$store.dispatch('get', '/operator/booking/all').then(res => this.data = res.data.bookings)
+      this.$store.dispatch('get', {url: '/operator/booking/all'}).then(res => this.data = res.data.bookings)
     },
     resend(model_id) {
       this.$swal.fire({

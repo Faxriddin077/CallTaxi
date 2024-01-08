@@ -14,7 +14,7 @@
         {{ model.additional }}
       </td>
       <td :class="rowClass + 'text-right'">
-        <table-dropdown url="/addresess" :id="model.id" :original="url + '/' + model.id" @otherData="changeData"/>
+        <table-dropdown url="/addresses" :id="model.id" :original="url + '/' + model.id" @otherData="changeData"/>
       </td>
     </tr>
   </table-layout>

@@ -110,7 +110,7 @@ export default {
         lng: 60.63157875439325
       })
       const opt = {
-        center: {lat: position.lat() ? position.lat() : parseFloat(41.54214231800138), lng: position.lng() ? position.lng() : parseFloat(60.63157875439325)},
+        center: position,
         mapTypeId: getGoogleMaps().MapTypeId.ROADMAP,
         zoom: 8, // scroll wheel: false,
         styles: map_style

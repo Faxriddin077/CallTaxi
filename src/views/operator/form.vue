@@ -29,11 +29,17 @@
               <label for="address" class="block uppercase text-blueGray-600 text-xs font-bold mb-2">
                 Manzilni kiriting
               </label>
-              <input type="text" id="address"
+
+              <input v-if="!isSelectVisible" type="text" id="address"
                      :class="inputClass"
                      placeholder="Mijoz manzili"
                      autocomplete="off"
                      v-model="model.address">
+
+              <select v-else type="text" id="address" :class="inputClass" @input="onAddressChange">
+                <option value="" selected>Manzilni kiriting</option>
+                <option v-for="address of addressList" :key="address.id" :value="address.id">{{ address.name }}</option>
+              </select>
             </div>
           </div>
         </div>
@@ -70,13 +76,14 @@
         <hr class="mt-6 border-b-1 border-blueGray-300 border-none">
         <div class="w-full px-4">
           <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
-            <google-map @setup="setup" :tariff_id="model.tariff_id"/>
+            <google-map @onLocationMove="onLocationMove" ref="map" :tariff_id="model.tariff_id"/>
           </div>
         </div>
 
         <br>
         <div class="flex flex-wrap justify-end">
-          <button type="submit" class="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
+          <button type="submit"
+                  class="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
             E&#8217;lon berish
           </button>
         </div>
@@ -92,7 +99,7 @@ import GoogleMap from "@/components/Maps/GoogleMap.vue";
 
 export default {
   name: "map-form",
-  directives: { mask },
+  directives: {mask},
   components: {
     GoogleMap
   },
@@ -103,6 +110,15 @@ export default {
         payment_type: 1,
         tariff_id: 0
       },
+      isSelectVisible: true,
+      addressList: [{
+        id: 1,
+        latitude: 13,
+        longitude: 12,
+        name: "Shu yer",
+        text: "Ishla",
+        target: "213",
+      }],
       canSubmit: false
     }
   },
@@ -111,6 +127,9 @@ export default {
       this.$store.dispatch('get', {url: this.$route.path})
         .then(res => this.model = res)
     }
+
+    this.$store.dispatch('get', {url: "/operator/addresses"})
+      .then(res => this.addressList = res.data.addresses)
   },
   methods: {
     submit() {
@@ -128,14 +147,15 @@ export default {
             this.$swal.fire({
               icon: 'success',
               title: "Success",
-              html: "Order successfully created!",
+              html: "Buyurtma muvaffaqiyatli berildi!",
               toast: true,
               position: "top-end",
               timer: 3000,
               showConfirmButton: false
             })
-          }
-          else {
+
+            this.isSelectVisible = true;
+          } else {
             this.$swal({
               title: "Error!",
               text: res.msg,
@@ -148,7 +168,21 @@ export default {
         () => this.$router.push({name: 'operator.bookings.in_process'})
       );
     },
-    setup(pos) {
+    onAddressChange(e) {
+      let val = e.target.value;
+      if (val.length < 1) {
+        this.isSelectVisible = false;
+        return;
+      }
+
+      let address = this.addressList.find(item => item.id.toString() === val)
+      this.model.address = address.name;
+      this.model.latitude = address.latitude;
+      this.model.longitude = address.longitude;
+
+      this.$refs.map.selectLocation(address)
+    },
+    onLocationMove(pos) {
       this.model.latitude = pos.lat();
       this.model.longitude = pos.lng();
     }

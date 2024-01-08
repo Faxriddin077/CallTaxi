@@ -10,7 +10,8 @@ import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
 createApp(App)
-    .use(router).use(store).use(VueSweetalert2)
-    // .use(io(store))
+    .use(router)
+    .use(store) // .use(io(store))
+    .use(VueSweetalert2)
     .mixin(mask)
     .mount('#app')

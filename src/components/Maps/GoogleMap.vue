@@ -41,9 +41,9 @@ export default {
         };
       } catch (error) {
         this.$swal.fire({
-          title: "Iltimos tizim to'g'ri ishlashi uchun geolokatsiyaga ruxsat bering (yoki brauzeringizni yangilang)!",
+          title: "Tizim to\u2018g\u2018ri ishlashi uchun joylashuvga ruxsat bering (yoki brauzeringizni yangilang)!",
           icon: 'info',
-          confirmButtonText: 'Ok',
+          confirmButtonText: 'Tushunarli',
           showCloseButton: true,
         })
         return {
@@ -53,7 +53,7 @@ export default {
       }
     },
     setPosition(pos) {
-      this.$emit('setup', getPosition(pos))
+      this.$emit('onLocationMove', getPosition(pos))
     },
     async initMap() { // main function
       const position = LatLng(await this.fetchLocation())
@@ -72,6 +72,7 @@ export default {
         title: "Asosiy",
         animation: google.maps.Animation.DROP
       });
+      this.marker = marker;
 
       const infoWindow = createInfoWindow(google);
       marker.addListener('click', () => infoWindow.open(map, marker));
@@ -109,6 +110,11 @@ export default {
         animation: google.maps.Animation.BOUNCE
       });
       this.markers.push(marker);
+    },
+    // Set position from another component
+    selectLocation(address) {
+      let position = LatLng({latitude: address.latitude, longitude: address.longitude});
+      this.marker.setPosition(position)
     },
     // Sets the map on all markers in the array.
     setMapOnAll(map) {

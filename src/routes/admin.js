@@ -1,4 +1,4 @@
-import {ADMIN, OPERATOR} from "@/utils/role";
+import { ADMIN, OPERATOR } from "@/utils/role";
 import Statistics from "@/views/admin/statistics.vue";
 import Transactions from "@/views/admin/transactions.vue";
 import BookingsHistory from "@/views/admin/Bookings/history.vue";
@@ -16,163 +16,163 @@ import DistrictForm from "@/views/admin/Districts/form";
 import Points from "@/views/admin/Points";
 import PointForm from "@/views/admin/Points/form";
 
-
 export const admin = [
     {
         path: "/dashboard",
         label: "Ko\u2018rsatkichlar",
-        icon: 'fas fa-chart-line',
-        meta: {auth: true, role: ADMIN},
-        component: Statistics
+        icon: "fas fa-chart-line",
+        meta: { auth: true, role: ADMIN },
+        component: Statistics,
     },
     {
         path: "/bookings-history",
         label: "Buyurtmalar tarixi",
-        icon: 'fas fa-solid fa-book',
+        icon: "fas fa-solid fa-book",
         section: 2, // Show under divider in sidebar
-        meta: {auth: true, role: ADMIN},
-        component: BookingsHistory
+        meta: { auth: true, role: ADMIN },
+        component: BookingsHistory,
     },
     {
         path: "/transactions",
         label: "O'tkazmalar tarixi",
-        icon: 'fas fa-money-bill',
+        icon: "fas fa-money-bill",
         section: 2, // Show under divider in sidebar
-        meta: {auth: true, role: ADMIN},
-        component: Transactions
+        meta: { auth: true, role: ADMIN },
+        component: Transactions,
     },
     {
         path: "/operators",
         label: "Operatorlar",
-        name: 'admin.operators',
-        icon: 'fas fa-headphones',
-        meta: {auth: true, role: ADMIN},
+        name: "admin.operators",
+        icon: "fas fa-headphones",
+        meta: { auth: true, role: ADMIN },
         component: EmptyLayout,
         children: [
             {
-                path: '',
-                name: 'admin.operators.index',
+                path: "",
+                name: "admin.operators.index",
                 component: Operators,
-                meta: {auth: true, role: ADMIN}
+                meta: { auth: true, role: ADMIN },
             },
             {
-                path: 'create',
+                path: "create",
                 component: OperatorForm,
-                meta: {auth: true, role: ADMIN}
+                meta: { auth: true, role: ADMIN },
             },
             {
-                path: ':id',
+                path: ":id",
                 component: OperatorForm,
-                meta: {auth: true, role: OPERATOR}
-            }
-        ]
+                meta: { auth: true, role: OPERATOR },
+            },
+        ],
     },
     {
         path: "/drivers",
         label: "Haydovchilar",
-        name: 'admin.drivers',
-        icon: 'fas fa-taxi',
-        meta: {auth: true, role: ADMIN},
+        name: "admin.drivers",
+        icon: "fas fa-taxi",
+        meta: { auth: true, role: ADMIN },
         component: EmptyLayout,
         children: [
             {
-                path: '',
-                name: 'admin.drivers.index',
+                path: "",
+                name: "admin.drivers.index",
                 component: Drivers,
             },
             {
-                path: 'create',
-                component: DriverForm
+                path: "create",
+                component: DriverForm,
             },
             {
-                path: ':id',
-                component: DriverForm
-            }
-        ]
+                path: ":id",
+                component: DriverForm,
+            },
+        ],
     },
     {
         path: "/tariffs",
         label: "Tariflar",
-        icon: 'fas fa-file-circle-exclamation',
-        meta: {auth: true, role: ADMIN},
+        icon: "fas fa-file-circle-exclamation",
+        meta: { auth: true, role: ADMIN },
         component: EmptyLayout,
         children: [
             {
-                path: '',
+                path: "",
                 component: Tariffs,
             },
             {
-                path: 'create',
+                path: "create",
                 component: TariffForm,
             },
             {
-                path: ':id',
-                component: TariffForm
-            }
-        ]
+                path: ":id",
+                component: TariffForm,
+            },
+        ],
     },
     {
         path: "/car-types",
         label: "Mashina turlari",
-        icon: 'fas fa-taxi',
-        meta: {auth: true, role: ADMIN},
+        icon: "fas fa-taxi",
+        meta: { auth: true, role: ADMIN },
         component: EmptyLayout,
         children: [
             {
-                path: '',
-                component: CarTypes
+                path: "",
+                component: CarTypes,
             },
             {
-                path: 'create',
+                path: "create",
                 component: CarTypeForm,
             },
             {
-                path: ':id',
-                component: CarTypeForm
-            }
-        ]
+                path: ":id",
+                component: CarTypeForm,
+            },
+        ],
     },
     {
         path: "/addresses",
         label: "Manzillar",
-        icon: 'fas fa-location',
-        meta: {auth: true, role: ADMIN},
+        icon: "fas fa-location",
+        meta: { auth: true, role: ADMIN },
         component: EmptyLayout,
+        redirect: {name: 'points'},
         children: [
             {
-                path: '',
-                component: Points
+                path: "",
+                component: Points,
             },
             {
-                path: 'create',
+                path: "create",
                 component: PointForm,
             },
             {
-                path: ':id',
-                component: PointForm
-            }
-        ]
+                path: ":id",
+                component: PointForm,
+            },
+        ],
     },
     {
         path: "/districts",
         label: "Tumanlar",
-        icon: 'fas fa-city',
-        meta: {auth: true, role: ADMIN},
+        icon: "fas fa-city",
+        meta: { auth: true, role: ADMIN },
         component: EmptyLayout,
         children: [
             {
-                path: '',
-                component: Districts
+                path: "",
+                component: Districts,
             },
             {
-                path: 'create',
+                path: "create",
                 component: DistrictForm,
             },
             {
-                path: ':id',
-                component: DistrictForm
-            }
-        ]
+                path: ":id",
+                component: DistrictForm,
+            },
+        ],
     },
     // {
     //     path: "/test-view",

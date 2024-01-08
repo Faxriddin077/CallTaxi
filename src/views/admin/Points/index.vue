@@ -1,5 +1,5 @@
 <template>
-  <table-layout heading="Manzillar" :headers="headers" link="/addresess/create">
+  <table-layout heading="Manzillar" :headers="headers" link="/addresses/create">
     <tr v-for="(model, i) in data" :key="model.id">
       <td :class="rowClass">
         {{ i + 1 }}
@@ -14,7 +14,7 @@
         {{ model.additional }}
       </td>
       <td :class="rowClass + 'text-right'">
-        <table-dropdown url="/addresess" :id="model.id" :original="url + '/' + model.id"/>
+        <table-dropdown url="/addresess" :id="model.id" :original="url + '/' + model.id" @otherData="changeData"/>
       </td>
     </tr>
   </table-layout>
@@ -52,6 +52,14 @@ export default {
   mounted() {
     this.$store.dispatch('get', {url: this.url})
       .then(res => this.data = res.data.addresses)
+
+  },
+  methods: {
+    changeData() {
+      this.$store.dispatch('get', this.url)
+      .then(res => this.data = res.data.addresses)
+
+    }
   }
 }
 </script>

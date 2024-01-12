@@ -81,7 +81,10 @@ export default {
       this.$emit('setup', getPosition(pos))
     },
     initMap() {
-      const position = LatLng()
+      const position = LatLng({
+        lat: parseFloat(60.63157875439325),
+        lng: parseFloat(40.4589754),
+      })
       const opt = {
         center: position,
         mapTypeId: getGoogleMaps().MapTypeId.ROADMAP,

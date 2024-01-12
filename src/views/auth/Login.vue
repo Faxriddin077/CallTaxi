@@ -76,7 +76,7 @@ export default {
     methods: {
         async signIn() {
             const url = this.$route.query.return_url;
-            let res = await this.$store.dispatch('login', {username: this.username, password: this.password, role: 0});
+            let res = await this.$store.dispatch('login', {username: this.username, password: this.password});
             if (res.success) {
                 setAuth(res.data)
                 this.$store.commit('setAuth');

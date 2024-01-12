@@ -18,6 +18,7 @@
                      :class="inputClass"
                      placeholder="Telefon raqam"
                      autocomplete="off"
+                     required="true"
                      v-model="model.phone"
                      v-mask="'(##) ###-##-##'"
               >
@@ -129,7 +130,7 @@ export default {
     }
 
     this.$store.dispatch('get', {url: "/operator/addresses"})
-      .then(res => this.addressList = res.data.addresses)
+      .then(res => this.addressList = res?.data?.addresses)
   },
   methods: {
     submit() {

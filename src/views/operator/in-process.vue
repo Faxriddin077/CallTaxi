@@ -2,6 +2,9 @@
   <table-layout heading="Jarayondagi buyurtmalar" :headers="headers" :link="'/bookings/create'">
     <tr v-for="model in data" :key="model.id">
       <th :class="rowClass + 'text-left flex items-center'">
+        {{  }}
+      </th>
+      <th :class="rowClass">
         {{ model.id }}
       </th>
       <td :class="rowClass">
@@ -49,8 +52,9 @@ export default {
       rowClass: 'border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4',
       btnClass: 'text-white active:bg-emerald-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150',
       avatar,
-      headers: ["Tr", "Manzil", "Telefon raqam", "Haydovchi", "Holati", ""],
-      data: {}
+      headers: ["Tr", "ID", "Manzil", "Telefon raqam", "Haydovchi", "Holati", ""],
+      data: {},
+      counterNumber: 1
     }
   },
   components: {
@@ -60,8 +64,12 @@ export default {
     this.fetchData()
   },
   methods: {
+    count(number) {
+      this.counterNumber + number;
+      return this.counterNumber;
+    },
     fetchData() {
-      this.$store.dispatch('get', {url: '/operator/booking/all'}).then(res => this.data = res.data.bookings)
+      this.$store.dispatch('get', {url: '/operator/booking/all'}).then(res => this.data = res?.data?.bookings)
     },
     resend(model_id) {
       this.$swal.fire({
